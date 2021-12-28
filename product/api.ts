@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Product } from "./types";
+import Papa from "papaparse";
 
 export default {
   list: async (): Promise<Product[]> =>{
@@ -7,8 +8,17 @@ export default {
       responseType: "blob"
     }).then(
       response =>{
-        console.log(response.data);
-        return response.data;
+        return new Promise<Product[]>((resolve, reject)=>{
+          Papa.parse(response.data, {
+            header: true,
+            complete: results => {
+              return resolve(results.data as Product[]);
+            },
+            error: (error)=> {
+              return reject(error.message);
+            }
+          });
+        })
       }
     );
   },
