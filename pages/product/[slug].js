@@ -1,23 +1,39 @@
 import React from 'react';
-import ProductCard from '../../components/product/ProductCard';
-import api from "../components/product/api";
-import {GetStaticPaths} from "next";
+import api from "../../components/product/api"
+import {GetStaticProps, GetStaticPaths} from "next";
+import { useRouter } from 'next/router';
 
-
-export default function ProductPage({pathsId}) {
+export default function ProductPage({products}) {
+  console.log("los productos son: ", products)
+  const route = useRouter()
+  const {slug} = route.query
+  console.log(route)
+  console.log(slug)
 
   return(
     <div>
-      hola mundo
+      Producto con indice {slug} tiene id: {products[slug].id}
+      Este producto es {products[slug].title}
+
     </div>
   )
 }
-export async function getStaticPaths(){
-  const res = await api.list();
-  const products = await res.json()
-  const pathsId = products.map((product)=> product.id)
+
+export async function getStaticPaths() {
+  // Hacer fetch al endpoint que contiene los `products`
+  const products = await api.list();
+
+  // Obtener rutas a pre-renderizar basado en el `id` de los products
+  const rutas = products.map((product) => `/product/${product.id}`);
+
+  return { paths: rutas, fallback: false };
+	}
+
+export const getStaticProps = async () => {
+  const products = await api.product();
   return {
-    pathsId,
-    fallback: false
-  }
-}
+    props: {
+      products,
+    },
+  };
+}; 
