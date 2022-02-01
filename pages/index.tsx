@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {GetStaticProps} from "next";
 import {Product} from "../components/product/types";
 import api from "../components/product/api";
-import {Grid, Heading, Stack, Text, Image, Divider, Button} from "@chakra-ui/react"
+import {Grid, Heading, Stack, Text, Image, Divider, Button, Flex} from "@chakra-ui/react"
 import Navbar from "../components/ui/Navbar/Navbar";
 import Link from "next/link"
 import ProductCard from "../components/product/ProductCard"
@@ -20,20 +20,22 @@ const IndexRoute: React.FC<Props> = ({products})=>{
   console.log(products)
   return (
     <Stack>
-      <Navbar />
+      {/* <Navbar /> */}
       <Grid gridGap={6} templateColumns="repeat(auto-fill, minmax(240px, 1fr))">{products.map((product)=>(
         <Stack key={product.id} bg="gray.100" _hover={{boxShadow:"dark-lg"}}>
           <Image src={product.image} h={300} w={300} objectFit="cover" alt={product.title} />
           <Divider />
           <Stack p={5}>
             <Heading fontSize={22} fontWeight={600}>{product.price}</Heading>
-            <Text color="gray.600" fontSize={15}>{product.title}</Text>
+            <Text justifySelf="center" color="gray.600" fontSize={15}>{product.title}</Text>
+            <Button colorScheme="blue" onClick={()=> setCart(cart => cart.concat(product))}>Agregar al carrito</Button>
           </Stack>
-          <Button colorScheme="blue" onClick={()=> setCart(cart => cart.concat(product))}>Agregar al carrito</Button>
         </Stack>
             ))}
-      </Grid>  
-      {Boolean(cart.length) && <OrderList cart={cart} />}
+      </Grid>
+      <Flex position="fixed">
+        {Boolean(cart.length) && <OrderList cart={cart} />}
+      </Flex>
     </Stack>
   );
 };

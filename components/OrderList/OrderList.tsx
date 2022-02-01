@@ -9,8 +9,10 @@ const OrderList = ({cart})=> {
   const orderListFiltered = cart.filter(({id}, index) => !idsArray.includes(id, index + 1))
   const totalPrice = cart.reduce((total, product) => parseInt(total) + parseInt(product.price), 0)
 
+  
+
   return(
-    <Flex justifyContent="center">
+    <Flex>
       <Button ref={btnRef} colorScheme='teal' px={6} onClick={onOpen}>
         Tu pedido ({cart.length} producto/s)
       </Button>
