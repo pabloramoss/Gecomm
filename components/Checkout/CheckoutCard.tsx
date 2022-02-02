@@ -8,7 +8,8 @@ const CheckoutCard = ({icon, title, text})=> {
     direction="row" 
     bg="gray.300" 
     borderRadius={10} 
-    p={10}
+    px={10}
+    py={5}
     alignItems="center"
     >
       <Flex 

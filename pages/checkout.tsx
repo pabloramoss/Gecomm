@@ -1,14 +1,16 @@
 import React from 'react'
-import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Input } from '@chakra-ui/react';
-import { FaMapMarkerAlt, FaTruck, FaUniversity } from 'react-icons/fa';
+import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Input, Button } from '@chakra-ui/react';
+import Link from "next/link"
+import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
-
+/* import CheckoutList from '../components/Checkout/CheckoutList';
+ */
 const Checkout: React.FC = ()=> {
 
   return(
-    <Stack>
+    <Stack alignItems="center">
       <Stack>
-        <Heading>Detalle de su pedido</Heading>
+        <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
         <Stack>
           <Heading fontSize={20}>Detalle de entrega</Heading>
           <CheckoutCard 
@@ -28,18 +30,27 @@ const Checkout: React.FC = ()=> {
           title="Transferencia bancaria"
           text=""
           />
-        <Grid templateColumns="5fr repeat(4,1fr)">
-          <GridItem>Producto</GridItem>
-          <GridItem>Cantidad</GridItem>
-          <GridItem>Precio</GridItem>
-          <GridItem>IVA incluido</GridItem>
-          <GridItem>Subtotal</GridItem>
-        </Grid>
-        <Stack>
-          <Heading>Observaciones del cliente</Heading>
-          <Text>Si desea agregar observaciones</Text>
-          <Input />
-        </Stack>
+          <Stack bg="gray.300"p={5} borderRadius={10}>
+            <Grid templateColumns="5fr repeat(4,1fr)">
+              <GridItem>Producto</GridItem>
+              <GridItem>Cantidad</GridItem>
+              <GridItem>Precio</GridItem>
+              <GridItem>IVA</GridItem>
+              <GridItem>Subtotal</GridItem>
+            </Grid>
+          </Stack>
+      </Stack>
+      <Stack direction="row" justifyContent="space-around">
+        <Link href="/">
+          <a>
+            <Button colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
+          </a>
+        </Link>
+        <Link href="/">
+          <a>
+            <Button colorScheme="green" px={10} size="lg">Confirmar compra</Button>
+          </a>
+        </Link>
       </Stack>
     </Stack>
   )

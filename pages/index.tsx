@@ -8,16 +8,22 @@ import Link from "next/link"
 import ProductCard from "../components/product/ProductCard"
 import { CallTracker } from "assert";
 import OrderList from "../components/OrderList/OrderList";
+import {useLocalStorage} from "../src/useLocalStorage"
 interface Props {
   products: Product[];
 }
 const IndexRoute: React.FC<Props> = ({products})=>{
   const [cart, setCart] = useState([])
+  const [cartString, setCartString] = useLocalStorage("cart", "")
   const handleAddToCart = (product)=>{
     setCart(cart => cart.concat(product))
     console.log(cart)
   }
   console.log(products)
+
+
+
+
   return (
     <Stack>
       {/* <Navbar /> */}

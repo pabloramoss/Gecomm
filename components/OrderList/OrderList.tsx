@@ -1,15 +1,22 @@
 import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, useDisclosure, DrawerCloseButton, DrawerFooter, Flex, Text, Stack, Divider } from '@chakra-ui/react';
 import React from 'react';
+import Link from "next/link"
+import { useLocalStorage } from '../../src/useLocalStorage';
 
 const OrderList = ({cart})=> {
+  const [cartLocalStorage, setCartLocalStorage] = useLocalStorage("cart", "")
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
   const idsArray = cart.map(product => product.id)
   //Lista con elementos unicos, luego hay que agregarle un elemento que muestre la cantidad de elementos repetidos
   const orderListFiltered = cart.filter(({id}, index) => !idsArray.includes(id, index + 1))
   const totalPrice = cart.reduce((total, product) => parseInt(total) + parseInt(product.price), 0)
+  const handleCheckout = ()=> {
+    onClose
+    setCartLocalStorage(cart)
+  }
 
-  
+
 
   return(
     <Flex>
@@ -35,9 +42,11 @@ const OrderList = ({cart})=> {
               <Text>Total estimado</Text>
               <Text>{totalPrice}</Text>
             </Stack>
-            <Button colorScheme="green" onClick={onClose}>
-              Completar pedido
-            </Button>
+            <Link href="/checkout">
+              <a>
+                <Button colorScheme="green" onClick={handleCheckout}>Completar pedido</Button>
+              </a>
+            </Link>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
