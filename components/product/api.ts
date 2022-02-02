@@ -39,7 +39,7 @@ export default {
           });
         })
       }
-    ).then(console.log("hola papi", id))
+    )
   },
   offline: async ()=>{
     return ([

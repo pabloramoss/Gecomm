@@ -1,12 +1,14 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Input, Button } from '@chakra-ui/react';
 import Link from "next/link"
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
-/* import CheckoutList from '../components/Checkout/CheckoutList';
- */
-const Checkout: React.FC = ()=> {
+import CheckoutList from '../components/Checkout/CheckoutList';
+import { CallTracker } from 'assert';
 
+const Checkout: React.FC = ()=> {
+    const cart = JSON.parse(window.localStorage.getItem("cart"))
+  
   return(
     <Stack alignItems="center">
       <Stack>
@@ -38,6 +40,7 @@ const Checkout: React.FC = ()=> {
               <GridItem>IVA</GridItem>
               <GridItem>Subtotal</GridItem>
             </Grid>
+            {cart.map((product, index)=> <CheckoutList key={index} product={product} iva="21" />)}
           </Stack>
       </Stack>
       <Stack direction="row" justifyContent="space-around">
