@@ -1,7 +1,9 @@
 import React from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
 
-const CheckoutList= ({product, iva})=> {
+const CheckoutList= ({product})=> {
+  const iva: number = 21
+  const subTotal = ()=> product.price * (1 + iva/100)
 
   return(
     <Grid templateColumns="5fr repeat(4,1fr)">
@@ -9,7 +11,7 @@ const CheckoutList= ({product, iva})=> {
       <GridItem>{product.amount}</GridItem>
       <GridItem>{product.price}</GridItem>
       <GridItem>{iva}</GridItem>
-      <GridItem>{product.subtotal}</GridItem>
+      <GridItem>{subTotal()}</GridItem>
     </Grid>
   )
 }

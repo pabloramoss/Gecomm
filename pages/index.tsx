@@ -6,41 +6,58 @@ import {Grid, Heading, Stack, Text, Image, Divider, Button, Flex} from "@chakra-
 import Navbar from "../components/ui/Navbar/Navbar";
 import Link from "next/link"
 import ProductCard from "../components/product/ProductCard"
-import { CallTracker } from "assert";
 import OrderList from "../components/OrderList/OrderList";
 import {useLocalStorage} from "../src/useLocalStorage"
-interface Props {
-  products: Product[];
-}
-const IndexRoute: React.FC<Props> = ({products})=>{
-  const [cart, setCart] = useState([])
-  const [cartString, setCartString] = useLocalStorage("cart", "")
-  const handleAddToCart = (product)=>{
-    setCart(cart => cart.concat(product))
-    console.log(cart)
+
+const IndexRoute = ({products})=>{
+  const [cartItems, setCartItems] = useState([])
+  const handleAddToCart = (clickedItem)=>{
+    setCartItems(prev=> {
+      //1. Is the item already added in the cart?
+      const isItemInCart = prev.find(item => item.id === clickedItem.id)
+      if(isItemInCart) {
+        return prev.map(item => 
+          item.id === clickedItem.id 
+          ? { ...item, amount: item.amount + 1}
+          : item
+        )
+      }
+      //First time the item is added
+      return [...prev, {...clickedItem, amount: 1}]
+    })
   }
-  console.log(products)
-
-
+  
+  const handleRemoveFromCart = (id)=>{
+    setCartItems(prev => (
+      prev.reduce((counter, item)=>{
+        if (item.id === id) {
+          if (item.amount === 1) return counter;
+          return [...counter, {...item, amount: item.amount -1}];
+        }else{
+          return [...counter, item]
+        }
+      },[])
+    ))
+  }
 
 
   return (
     <Stack>
       {/* <Navbar /> */}
-      <Grid gridGap={6} templateColumns="repeat(auto-fill, minmax(240px, 1fr))">{products.map((product)=>(
-        <Stack key={product.id} bg="gray.100" _hover={{boxShadow:"dark-lg"}}>
-          <Image src={product.image} h={300} w={300} objectFit="cover" alt={product.title} />
+      <Grid gridGap={6} templateColumns="repeat(auto-fill, minmax(240px, 1fr))">{products.map((item)=>(
+        <Stack key={item.id} bg="gray.100" _hover={{boxShadow:"dark-lg"}}>
+          <Image src={item.image} h={300} w={300} objectFit="cover" alt={item.title} />
           <Divider />
           <Stack p={5}>
-            <Heading fontSize={22} fontWeight={600}>{product.price}</Heading>
-            <Text justifySelf="center" color="gray.600" fontSize={15}>{product.title}</Text>
-            <Button colorScheme="blue" onClick={()=> setCart(cart => cart.concat(product))}>Agregar al carrito</Button>
+            <Heading fontSize={22} fontWeight={600}>{item.price}</Heading>
+            <Text justifySelf="center" color="gray.600" fontSize={15}>{item.title}</Text>
+            <Button colorScheme="blue" onClick={()=>handleAddToCart(item)}>Agregar al carrito</Button>
           </Stack>
         </Stack>
             ))}
       </Grid>
       <Flex position="fixed">
-        {Boolean(cart.length) && <OrderList cart={cart} />}
+        {Boolean(cartItems.length) && <OrderList cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart} />}
       </Flex>
     </Stack>
   );

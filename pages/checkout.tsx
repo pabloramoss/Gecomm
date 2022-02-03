@@ -7,7 +7,7 @@ import CheckoutList from '../components/Checkout/CheckoutList';
 import { CallTracker } from 'assert';
 
 const Checkout: React.FC = ()=> {
-    const cart = JSON.parse(window.localStorage.getItem("cart"))
+    const cart = JSON.parse(localStorage.getItem("cart"))
   
   return(
     <Stack alignItems="center">
@@ -40,7 +40,14 @@ const Checkout: React.FC = ()=> {
               <GridItem>IVA</GridItem>
               <GridItem>Subtotal</GridItem>
             </Grid>
-            {cart.map((product, index)=> <CheckoutList key={index} product={product} iva="21" />)}
+            {cart.map((product, index)=> <CheckoutList key={index} product={product} />)}
+            <Stack alignItems="end">
+              <Heading fontSize={15}>Subtotal: </Heading>
+              <Heading fontSize={15}>IVA: </Heading>
+              <Heading fontSize={15}>Total: </Heading>
+              <Heading fontSize={15}>Equivalente en AR$: </Heading>
+              <Heading fontSize={15}>Cotización del dólar: </Heading>
+            </Stack>
           </Stack>
       </Stack>
       <Stack direction="row" justifyContent="space-around">
