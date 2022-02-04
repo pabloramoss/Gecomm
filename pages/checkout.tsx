@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react'
-import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Input, Button } from '@chakra-ui/react';
+import React from 'react'
+import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Button } from '@chakra-ui/react';
 import Link from "next/link"
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
-import { CallTracker } from 'assert';
 
-const Checkout: React.FC = ()=> {
-    const cart = JSON.parse(localStorage.getItem("cart"))
+const Checkout = ()=> {
   
   return(
     <Stack alignItems="center">

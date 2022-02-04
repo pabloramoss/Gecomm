@@ -1,25 +1,38 @@
-import { Button, Drawer, DrawerOverlay, DrawerContent, DrawerHeader, DrawerBody, useDisclosure, DrawerCloseButton, DrawerFooter, Flex, Text, Stack, Divider, Icon, useAccordionItemState } from '@chakra-ui/react';
+import { 
+  Button, 
+  Drawer, 
+  Icon, 
+  DrawerOverlay, 
+  DrawerContent, 
+  DrawerHeader, 
+  DrawerBody, 
+  useDisclosure, 
+  DrawerCloseButton, 
+  DrawerFooter, 
+  Flex, 
+  Text, 
+  Stack, 
+  Divider 
+} from '@chakra-ui/react';
 import React from 'react';
 import Link from "next/link"
-import { FaTimesCircle } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
 import Cart from './Cart';
-import { Item } from 'framer-motion/types/components/Reorder/Item';
 
 const OrderList = ({cartItems, addToCart, removeFromCart})=> {
-  const {handleAddToCart} = addToCart
-  const {handleRemoveFromCart} = removeFromCart
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
   const handleCheckout = ()=> {
     onClose
   }
   const getTotalItems = (items => items.reduce((counter, item)=> counter + item.amount, 0) )
+  const totalPrice = (items => items.reduce((counter, item)=> counter + item.amount * item.price, 0))
 
 
   return(
     <Flex>
-      <Button ref={btnRef} colorScheme='teal' px={6} onClick={onOpen}>
-        Tu pedido ({cartItems.length} producto/s)
+      <Button top="90vh" position="absolute" ref={btnRef} colorScheme='teal' px={8} onClick={onOpen}><Icon as={FaShoppingCart} me={5}/>
+        Tu pedido ({getTotalItems(cartItems)})
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -28,7 +41,7 @@ const OrderList = ({cartItems, addToCart, removeFromCart})=> {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent >
+        <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader alignSelf="center">Pedido ({getTotalItems(cartItems)})</DrawerHeader>
           <DrawerBody>
@@ -41,8 +54,7 @@ const OrderList = ({cartItems, addToCart, removeFromCart})=> {
           <Divider />
           <DrawerFooter justifyContent="center" flexDirection="column">
             <Stack direction="row" gap={15}>
-              <Text>Total estimado</Text>
-              <Text>hola</Text>
+              <Text my={5}>Total estimado: $ {totalPrice(cartItems)}</Text>
             </Stack>
             <Link href="/checkout">
               <a>
@@ -56,5 +68,3 @@ const OrderList = ({cartItems, addToCart, removeFromCart})=> {
   )
 }
 export default OrderList
-
-/* items.reduce((counter, item)=> counter + item.amount, 0) */
