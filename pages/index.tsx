@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {GetStaticProps} from "next";
 import {Product} from "../components/product/types";
 import api from "../components/product/api";
@@ -7,10 +7,13 @@ import Navbar from "../components/ui/Navbar/Navbar";
 import Link from "next/link"
 import ProductCard from "../components/product/ProductCard"
 import OrderList from "../components/OrderList/OrderList";
-import {useLocalStorage} from "../src/useLocalStorage"
+import useSessionStorage from "../components/useSessionStorage"
+import apiDolar from "../components/dolarPrice/api"
 
-const IndexRoute = ({products})=>{
-  const [cartItems, setCartItems] = useState([])
+
+const IndexRoute = ({products, dolarPrice})=>{
+  useEffect(()=>{window.sessionStorage.setItem("dolarPrice", dolarPrice)},[])
+  const [cartItems, setCartItems] = useSessionStorage("cartItems",[])
   const handleAddToCart = (clickedItem)=>{
     setCartItems(prev=> {
       //1. Is the item already added in the cart?
@@ -26,6 +29,7 @@ const IndexRoute = ({products})=>{
       return [...prev, {...clickedItem, amount: 1}]
     })
   }
+
   
   const handleRemoveFromCart = (id)=>{
     setCartItems(prev => (
@@ -64,10 +68,12 @@ const IndexRoute = ({products})=>{
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+  const dolarPrice = await apiDolar.dolarBlue()
   const products = await api.list();
   return {
     props: {
       products,
+      dolarPrice,
     },
   };
 };

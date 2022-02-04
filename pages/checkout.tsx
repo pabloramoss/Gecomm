@@ -1,12 +1,27 @@
-import React from 'react'
-import { Image, Text, Stack, Heading, Icon, Grid, GridItem, Button } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react'
+import { Stack, Heading, Icon, Grid, GridItem, Button } from '@chakra-ui/react';
 import Link from "next/link"
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
 
 const Checkout = ()=> {
-  
+  const [cartItems, setCartItems] = useState([])
+  const [userInfo, setUserInfo] = useState({})
+  const [dolar, setDolar] = useState(null)
+  useEffect(()=>{
+    setCartItems(JSON.parse(sessionStorage.getItem("cartItems")))
+    setUserInfo(JSON.parse(sessionStorage.getItem("userInfo")))
+    setDolar(parseFloat(sessionStorage.getItem("dolarPrice")))
+  },[])
+
+  const subTotalProducts = cartItems.map(item=>item.amount*item.price)
+  const subTotal = subTotalProducts.reduce((counter, item)=> counter + item, 0)
+  const iva = 21
+  const subtotalIVA = subTotal * iva/100
+  const total = subTotal + subtotalIVA
+  const totalAR = total * dolar
+
   return(
     <Stack alignItems="center">
       <Stack>
@@ -15,8 +30,8 @@ const Checkout = ()=> {
           <Heading fontSize={20}>Detalle de entrega</Heading>
           <CheckoutCard 
           icon={FaMapMarkerAlt}
-          title="Calle falsa 123"
-          text="CP 3000 - Arroyo leyes"
+          title={userInfo.name}
+          text={userInfo.company}
           />
           <CheckoutCard 
           icon={FaTruck}
@@ -38,18 +53,18 @@ const Checkout = ()=> {
               <GridItem>IVA</GridItem>
               <GridItem>Subtotal</GridItem>
             </Grid>
-            {cart.map((product, index)=> <CheckoutList key={index} product={product} />)}
+            {cartItems.map((product, index)=> <CheckoutList key={index} product={product} />)}
             <Stack alignItems="end">
-              <Heading fontSize={15}>Subtotal: </Heading>
-              <Heading fontSize={15}>IVA: </Heading>
-              <Heading fontSize={15}>Total: </Heading>
-              <Heading fontSize={15}>Equivalente en AR$: </Heading>
-              <Heading fontSize={15}>Cotización del dólar: </Heading>
+              <Heading fontSize={15}>Subtotal: {subTotal}</Heading>
+              <Heading fontSize={15}>IVA: {subtotalIVA}%</Heading>
+              <Heading fontSize={15}>Total: {total}</Heading>
+              <Heading fontSize={15}>Equivalente en AR$: {totalAR}</Heading>
+              <Heading fontSize={15}>Cotización del dólar: {dolar}</Heading>
             </Stack>
           </Stack>
       </Stack>
       <Stack direction="row" justifyContent="space-around">
-        <Link href="/">
+        <Link href="/UserForm">
           <a>
             <Button colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
           </a>
