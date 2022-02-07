@@ -4,23 +4,16 @@ import Link from "next/link"
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
+import {GetStaticProps} from "next";
+import api from "../components/Checkout/api"
 
-const Checkout = ()=> {
-  const [cartItems, setCartItems] = useState([])
-  const [userInfo, setUserInfo] = useState({})
-  const [dolar, setDolar] = useState(null)
-  useEffect(()=>{
-    setCartItems(JSON.parse(sessionStorage.getItem("cartItems")))
-    setUserInfo(JSON.parse(sessionStorage.getItem("userInfo")))
-    setDolar(parseFloat(sessionStorage.getItem("dolarPrice")))
-  },[])
-
-  const subTotalProducts = cartItems.map(item=>item.amount*item.price)
+const Checkout = ({cart,userInfo, dolarPrice})=> {
+  const subTotalProducts = cart.map(item=>item.amount*item.price)
   const subTotal = subTotalProducts.reduce((counter, item)=> counter + item, 0)
   const iva = 21
   const subtotalIVA = subTotal * iva/100
   const total = subTotal + subtotalIVA
-  const totalAR = total * dolar
+  const totalAR = total * dolarPrice
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const CBU = '2384723428374234'
@@ -36,12 +29,18 @@ const Checkout = ()=> {
           icon={FaMapMarkerAlt}
           title={userInfo.address}
           text={userInfo.zipCode + " - " + userInfo.province + " - " + userInfo.city }
-          />
-          <CheckoutCard 
+          />{userInfo.shipping===true
+          ?<CheckoutCard 
           icon={FaTruck}
-          title="Acordar con el vendedor"
+          title="Envio a domicilio"
           text=""
           />
+          :<CheckoutCard 
+          icon={FaTruck}
+          title="Retiro en el local"
+          text=""
+          />
+          }
         </Stack>
         <Heading fontSize={20}>Forma de pago</Heading>
         <CheckoutCard 
@@ -57,13 +56,13 @@ const Checkout = ()=> {
               <Heading justifySelf="center" fontSize={15}>IVA</Heading>
               <Heading justifySelf="center" fontSize={15}>Subtotal</Heading>
             </Grid>
-            {cartItems.map((product, index)=> <CheckoutList key={index} product={product} />)}
+            {cart.map((product, index)=> <CheckoutList key={index} product={product} />)}
             <Stack alignItems="end">
               <Heading fontSize={15}>Subtotal: USD {subTotal}</Heading>
               <Heading fontSize={15}>IVA 21%: USD {subtotalIVA}</Heading>
               <Heading fontSize={15}>Total: USD {total}</Heading>
               <Heading fontSize={15}>Equivalente en AR$: $ {totalAR}</Heading>
-              <Heading fontSize={15}>Cotización del dólar: $ {dolar}</Heading>
+              <Heading fontSize={15}>Cotización del dólar: $ {dolarPrice}</Heading>
             </Stack>
           </Stack>
       </Stack>
@@ -97,17 +96,28 @@ const Checkout = ()=> {
                 <Icon h={6} w={6} color="gray.400" as={FaUserCircle} />
                 <Heading fontSize={15}>Datos del vendedor</Heading>
               </HStack>
-              <Flex alignItems="center" mb={2}>
+              <Flex justifyContent="space-between" alignItems="center" mb={2}>
                 <Text me={2}>CBU</Text>
-                <Badge p={2} rounded={10} fontSize="md">{CBU}</Badge>
-                <Button borderRadius="full" size="sm" onClick={onCopy} ml={2}>
-                  {hasCopied ? 'Copiado' : 'Copiar'}
-                </Button>
+                <Stack direction="row" alignItems="center">
+                  <Badge p={2} rounded={10} fontSize="md">{CBU}</Badge>
+                  <Button borderRadius="full" size="sm" onClick={onCopy} ml={2}>
+                    {hasCopied ? 'Copiado' : 'Copiar'}
+                  </Button>
+                </Stack>
               </Flex>
-              <Flex alignItems="center" mb={2}>
+              <Flex alignItems="center" justifyContent="space-between" mb={2}>
                 <Text me={2}>A nombre de:</Text>
                 <Badge p={2} rounded={10} fontSize="md">Gonzalo Javier Diaz</Badge>
               </Flex>
+              {userInfo.shipping===true
+              ? <Flex alignItems="center" justifyContent="space-between">
+                  <Text>Dirección:</Text>
+                  <Badge p={2} rounded={10} fontSize="md">Alvear 7929</Badge>
+                </Flex>
+              : ""
+              }
+              
+              <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>
             </Stack>
           </ModalBody>
         </ModalContent>
@@ -117,4 +127,13 @@ const Checkout = ()=> {
     </Stack>
   )
 }
+export const getStaticProps: GetStaticProps = async () => {
+  const dolarPrice = await api.dolarBlue()
+  return {
+    props: {
+      dolarPrice,
+    },
+  };
+};
+
 export default Checkout

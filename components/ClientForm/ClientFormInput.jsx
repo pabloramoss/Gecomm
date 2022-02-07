@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
-import useSessionStorage from '../useSessionStorage';
 
-const ClientFormInput = ({type, label, isRequired, isDisabled, name})=> {
-  const [clientInfo, setClientInfo] = useSessionStorage(name, "")
+const ClientFormInput = ({type, label, isRequired, isDisabled, name, addClientInfo, clientInfo})=> {
 
-  const handleInfoChange = e => setClientInfo(e.target.value)
+  const handleInfoChange = e => {
+    addClientInfo(clientInfo, name, e.target.value)
+  }
 
   return(
     <>

@@ -1,15 +1,15 @@
 import React from 'react';
 import CartItem from './CartItem';
-const Cart = ({cartItems, addToCart, removeFromCart})=> {
+const Cart = ({cart, handleRemoveFromCart, handleAddToCart})=> {
 
   return(
     <>
-    {cartItems.map(item => (
+    {cart.map(item => (
       <CartItem 
       key={item.id}
       item={item}
-      addToCart={addToCart}
-      removeFromCart={removeFromCart}
+      handleAddToCart={handleAddToCart}
+      handleRemoveFromCart={handleRemoveFromCart}
       />
       ))}
     </>

@@ -9,7 +9,7 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 } */
 
 
-const CartItem = ({item, addToCart, removeFromCart})=> {
+const CartItem = ({item, handleAddToCart, handleRemoveFromCart})=> {
 
   return(
     <Stack>
@@ -22,9 +22,9 @@ const CartItem = ({item, addToCart, removeFromCart})=> {
         <Text fontSize={13}>Subtotal: $ {(item.amount * item.price).toFixed(2)}</Text>
       </Stack>
         <Stack direction="row" alignItems="center">
-          <Button bg="gray.200" size="xs" onClick={()=> removeFromCart(item.id)}><Icon as={FaMinus} /></Button>
+          <Button bg="gray.200" size="xs" onClick={()=> handleRemoveFromCart(item.id)}><Icon as={FaMinus} /></Button>
           <Text>{item.amount}</Text>
-          <Button bg="gray.200" size="xs" onClick={()=> addToCart(item)}><Icon as={FaPlus} /></Button>
+          <Button bg="gray.200" size="xs" onClick={()=> handleAddToCart(item)}><Icon as={FaPlus} /></Button>
         </Stack>
         <Divider />
     </Stack>

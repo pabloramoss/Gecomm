@@ -8,42 +8,10 @@ import Link from "next/link"
 import ProductCard from "../components/product/ProductCard"
 import OrderList from "../components/OrderList/OrderList";
 import useSessionStorage from "../components/useSessionStorage"
-import apiDolar from "../components/dolarPrice/api"
+import apiDolar from "../components/Checkout/api"
 
 
-const IndexRoute = ({products, dolarPrice})=>{
-  useEffect(()=>{window.sessionStorage.setItem("dolarPrice", dolarPrice)},[])
-  const [cartItems, setCartItems] = useSessionStorage("cartItems",[])
-  const handleAddToCart = (clickedItem)=>{
-    setCartItems(prev=> {
-      //1. Is the item already added in the cart?
-      const isItemInCart = prev.find(item => item.id === clickedItem.id)
-      if(isItemInCart) {
-        return prev.map(item => 
-          item.id === clickedItem.id 
-          ? { ...item, amount: item.amount + 1}
-          : item
-        )
-      }
-      //First time the item is added
-      return [...prev, {...clickedItem, amount: 1}]
-    })
-  }
-
-  
-  const handleRemoveFromCart = (id)=>{
-    setCartItems(prev => (
-      prev.reduce((counter, item)=>{
-        if (item.id === id) {
-          if (item.amount === 1) return counter;
-          return [...counter, {...item, amount: item.amount -1}];
-        }else{
-          return [...counter, item]
-        }
-      },[])
-    ))
-  }
-
+const IndexRoute = ({products, handleAddToCart, handleRemoveFromCart, cart})=>{
 
   return (
     <Stack>
@@ -61,19 +29,17 @@ const IndexRoute = ({products, dolarPrice})=>{
             ))}
       </Grid>
       <Flex position="fixed">
-        {Boolean(cartItems.length) && <OrderList cartItems={cartItems} addToCart={handleAddToCart} removeFromCart={handleRemoveFromCart} />}
+        {Boolean(cart.length) && <OrderList cart={cart} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />}
       </Flex>
     </Stack>
   );
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dolarPrice = await apiDolar.dolarBlue()
   const products = await api.list();
   return {
     props: {
       products,
-      dolarPrice,
     },
   };
 };
