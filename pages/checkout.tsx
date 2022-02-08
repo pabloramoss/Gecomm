@@ -6,18 +6,20 @@ import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
 import {GetStaticProps} from "next";
 import api from "../components/Checkout/api"
+import {useRouter} from "next/router"
 
-const Checkout = ({cart,userInfo, dolarPrice})=> {
+const Checkout = ({cart, clientInfo, dolarPrice})=> {
   const subTotalProducts = cart.map(item=>item.amount*item.price)
   const subTotal = subTotalProducts.reduce((counter, item)=> counter + item, 0)
   const iva = 21
-  const subtotalIVA = subTotal * iva/100
+  const subtotalIVA = subTotal * (iva/100)
   const total = subTotal + subtotalIVA
   const totalAR = total * dolarPrice
-
   const { isOpen, onOpen, onClose } = useDisclosure()
   const CBU = '2384723428374234'
   const { hasCopied, onCopy } = useClipboard(CBU)
+  const router = useRouter()
+  const handleGoBack= ()=> router.push('/UserForm')
 
   return(
     <Stack alignItems="center">
@@ -27,9 +29,9 @@ const Checkout = ({cart,userInfo, dolarPrice})=> {
           <Heading fontSize={20}>Detalle de entrega</Heading>
           <CheckoutCard 
           icon={FaMapMarkerAlt}
-          title={userInfo.address}
-          text={userInfo.zipCode + " - " + userInfo.province + " - " + userInfo.city }
-          />{userInfo.shipping===true
+          title={clientInfo.address}
+          text={clientInfo.zipCode + " - " + clientInfo.province + " - " + clientInfo.city }
+          />{clientInfo.shipping===true
           ?<CheckoutCard 
           icon={FaTruck}
           title="Envio a domicilio"
@@ -67,11 +69,7 @@ const Checkout = ({cart,userInfo, dolarPrice})=> {
           </Stack>
       </Stack>
       <Stack direction="row" justifyContent="space-around">
-        <Link href="/UserForm">
-          <a>
-            <Button colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
-          </a>
-        </Link>
+        <Button onClick={handleGoBack} colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
         <Button colorScheme="green" px={10} size="lg" onClick={onOpen}>Confirmar compra</Button>
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -109,14 +107,13 @@ const Checkout = ({cart,userInfo, dolarPrice})=> {
                 <Text me={2}>A nombre de:</Text>
                 <Badge p={2} rounded={10} fontSize="md">Gonzalo Javier Diaz</Badge>
               </Flex>
-              {userInfo.shipping===true
+              {clientInfo.shipping===true
               ? <Flex alignItems="center" justifyContent="space-between">
                   <Text>Dirección:</Text>
                   <Badge p={2} rounded={10} fontSize="md">Alvear 7929</Badge>
                 </Flex>
               : ""
               }
-              
               <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>
             </Stack>
           </ModalBody>
@@ -128,7 +125,7 @@ const Checkout = ({cart,userInfo, dolarPrice})=> {
   )
 }
 export const getStaticProps: GetStaticProps = async () => {
-  const dolarPrice = await api.dolarBlue()
+  const dolarPrice = parseInt(await api.dolarBlue())
   return {
     props: {
       dolarPrice,

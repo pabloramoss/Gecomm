@@ -3,8 +3,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import {AppProps} from "next/app";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const [cart, setCart] = useState([])
-  const clientInfo = {
+  const [isShippingMethod, setIsShippinhMethod] = useState(false)
+  const [clientInfo, setClientInfo] = useState({
     name: "",
     company: "",
     cuit: "",
@@ -15,13 +15,9 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     city: "",
     province: "",
     shipping: true,
-  }
-  const [isShippingMethod, setIsShippinhMethod] = useState(false)
-
-  const addClientInfo = (obj, propName, propValue)=>{
-    obj[propName] = propValue
-  }
-
+  })
+  
+  const [cart, setCart] = useState([])
   const handleAddToCart = (clickedItem)=>{
     setCart(prev=> {
       //1. Is the item already added in the cart?
@@ -53,16 +49,16 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
 
   return (
     <ChakraProvider>
-      <Component 
-      {...pageProps}
-      handleRemoveFromCart={handleRemoveFromCart}
-      handleAddToCart={handleAddToCart}
-      cart={cart}
-      clientInfo={clientInfo}
-      isShippingMethod={isShippingMethod}
-      setIsShippingMethod={setIsShippinhMethod}
-      addClientInfo={addClientInfo}
-      />
+        <Component 
+          {...pageProps}
+          handleRemoveFromCart={handleRemoveFromCart}
+          handleAddToCart={handleAddToCart}
+          cart={cart}
+          clientInfo={clientInfo}
+          isShippingMethod={isShippingMethod}
+          setIsShippingMethod={setIsShippinhMethod}
+          setClientInfo={setClientInfo}
+        />
     </ChakraProvider>
   );
 };

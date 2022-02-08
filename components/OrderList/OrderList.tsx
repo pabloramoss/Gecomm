@@ -58,10 +58,8 @@ const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
             <Stack direction="row" gap={15}>
               <Text my={5}>Total estimado: $ {totalPrice(cart)}</Text>
             </Stack>
-            <Link href="/UserForm">
-              <a>
-                <Button colorScheme="green">Completar pedido</Button>
-              </a>
+            <Link href="/UserForm" passHref>
+              <Button colorScheme="green">Completar pedido</Button>
             </Link>
           </DrawerFooter>
         </DrawerContent>

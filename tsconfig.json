@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/ClientFormInput.jsx", "pages/product/[slug].js", "pages/product/[slug].js"  ],
+, "pages/ClientFormInput.jsx", "pages/product/[slug].js", "pages/product/[slug].js", "components/context.js"  ],
   "exclude": [
     "node_modules"
   ]
