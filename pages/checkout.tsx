@@ -27,11 +27,7 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
         <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
         <Stack>
           <Heading fontSize={20}>Detalle de entrega</Heading>
-          <CheckoutCard 
-          icon={FaMapMarkerAlt}
-          title={clientInfo.address}
-          text={clientInfo.zipCode + " - " + clientInfo.province + " - " + clientInfo.city }
-          />{clientInfo.shipping===true
+          {clientInfo.shipping===true
           ?<CheckoutCard 
           icon={FaTruck}
           title="Envio a domicilio"
@@ -41,6 +37,18 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
           icon={FaTruck}
           title="Retiro en el local"
           text=""
+          />
+          }
+          {clientInfo.shipping===true
+          ?<CheckoutCard 
+          icon={FaMapMarkerAlt}
+          title={clientInfo.address}
+          text={clientInfo.zipCode + " - " + clientInfo.province + " - " + clientInfo.city }
+          />
+          :<CheckoutCard 
+          icon={FaMapMarkerAlt}
+          title="Alvear 7929"
+          text="Santa Fe Capital"
           />
           }
         </Stack>
@@ -63,7 +71,7 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
               <Heading fontSize={15}>Subtotal: USD {subTotal}</Heading>
               <Heading fontSize={15}>IVA 21%: USD {subtotalIVA}</Heading>
               <Heading fontSize={15}>Total: USD {total}</Heading>
-              <Heading fontSize={15}>Equivalente en AR$: $ {totalAR}</Heading>
+              <Heading fontSize={15}>Equivalente en AR$: $ {Math.trunc(totalAR)}</Heading>
               <Heading fontSize={15}>Cotización del dólar: $ {dolarPrice}</Heading>
             </Stack>
           </Stack>
@@ -78,16 +86,16 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
           <ModalHeader alignSelf="center" roundedTop={20}>Pedido realizado</ModalHeader>
           <ModalCloseButton />
           <ModalBody roundedBottom={20} pb={6}>
-            <Stack>
+            <Stack width="100%">
               <Text>Recibimos su pedido exitosamente</Text>
               <Flex align="center">
                 <Text me={2}>El código de referencia es:</Text>
                 <Heading fontSize={15}>asasf124kjfdskj23</Heading>
               </Flex>
-              <Stack direction="row" align="center">
+              <Stack width="100%" direction="row" align="center">
                 <Icon w={10} h={10} bg="gray.200" p={2} borderRadius="full" as={FaDollarSign}></Icon>
                 <Text>Solo te falta pagar</Text>
-                <Badge p={2} rounded={10} fontSize="md">$ {totalAR}</Badge>
+                <Badge alignSelf="end" p={2} rounded={10} fontSize="md">$ {totalAR}</Badge>
               </Stack>
               <Divider />
               <HStack>
@@ -97,20 +105,20 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
               <Flex justifyContent="space-between" alignItems="center" mb={2}>
                 <Text me={2}>CBU</Text>
                 <Stack direction="row" alignItems="center">
-                  <Badge p={2} rounded={10} fontSize="md">{CBU}</Badge>
                   <Button borderRadius="full" size="sm" onClick={onCopy} ml={2}>
                     {hasCopied ? 'Copiado' : 'Copiar'}
                   </Button>
+                  <Badge p={2} rounded={10} fontSize="md">{CBU}</Badge>
                 </Stack>
               </Flex>
               <Flex alignItems="center" justifyContent="space-between" mb={2}>
                 <Text me={2}>A nombre de:</Text>
                 <Badge p={2} rounded={10} fontSize="md">Gonzalo Javier Diaz</Badge>
               </Flex>
-              {clientInfo.shipping===true
+              {clientInfo.shipping===false
               ? <Flex alignItems="center" justifyContent="space-between">
                   <Text>Dirección:</Text>
-                  <Badge p={2} rounded={10} fontSize="md">Alvear 7929</Badge>
+                  <Badge p={2} rounded={10} fontSize="md">Alvear 7929 - Santa Fe Capital</Badge>
                 </Flex>
               : ""
               }

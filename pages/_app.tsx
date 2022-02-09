@@ -3,7 +3,6 @@ import { ChakraProvider } from '@chakra-ui/react';
 import {AppProps} from "next/app";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-  const [isShippingMethod, setIsShippinhMethod] = useState(false)
   const [clientInfo, setClientInfo] = useState({
     name: "",
     company: "",
@@ -55,8 +54,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           handleAddToCart={handleAddToCart}
           cart={cart}
           clientInfo={clientInfo}
-          isShippingMethod={isShippingMethod}
-          setIsShippingMethod={setIsShippinhMethod}
           setClientInfo={setClientInfo}
         />
     </ChakraProvider>

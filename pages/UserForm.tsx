@@ -4,7 +4,7 @@ import ClientInfoForm from '../components/ClientForm/ClientInfoForm';
 import ClientAddressForm from '../components/ClientForm/ClientAddressForm';
 import {useRouter} from "next/router"
 
-const UserForm = ({isShippingMethod, setIsShippingMethod, setClientInfo, clientInfo})=> {
+const UserForm = ({setClientInfo, clientInfo})=> {
 
   const router = useRouter()
   const handleSubmit= (e)=>{
@@ -18,8 +18,6 @@ const UserForm = ({isShippingMethod, setIsShippingMethod, setClientInfo, clientI
           <Stack borderRadius={20} p={10} direction="row" justifyContent="center" bg="gray.300">
             <ClientInfoForm clientInfo={clientInfo} setClientInfo={setClientInfo}/>
             <ClientAddressForm
-            isShippingMethod={isShippingMethod}
-            setIsShippingMethod={setIsShippingMethod}
             setClientInfo={setClientInfo}
             clientInfo={clientInfo}
             />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Button, Text, Image, Icon, Divider, Heading } from '@chakra-ui/react'
+import { Stack, Button, Text, Image, Icon, Divider, Heading, HStack, VStack } from '@chakra-ui/react'
 import { FaPlus, FaMinus } from 'react-icons/fa';
 
 /* type Props = {
@@ -14,19 +14,25 @@ const CartItem = ({item, handleAddToCart, handleRemoveFromCart})=> {
   return(
     <Stack>
       <Stack direction="row" alignItems="center">
-        <Heading fontSize={15} fontFamily="500">{item.title}</Heading>
-        <Image width={55} height={55} src={item.image} alt={item.title} />
-      </Stack>
-      <Stack direction="row" justifyContent="space-between">
-        <Text fontSize={13}>Precio: $ {item.price}</Text>
-        <Text fontSize={13}>Subtotal: $ {(item.amount * item.price).toFixed(2)}</Text>
-      </Stack>
-        <Stack direction="row" alignItems="center">
-          <Button bg="gray.200" size="xs" onClick={()=> handleRemoveFromCart(item.id)}><Icon as={FaMinus} /></Button>
-          <Text>{item.amount}</Text>
-          <Button bg="gray.200" size="xs" onClick={()=> handleAddToCart(item)}><Icon as={FaPlus} /></Button>
+        <HStack>
+          <Stack>
+            <Image width={100} height={100} src={item.image} alt={item.title} />
+            <Stack direction="row" alignItems="center">
+              <Button bg="gray.200" size="xs" onClick={()=> handleRemoveFromCart(item.id)}><Icon as={FaMinus} /></Button>
+                <Text>{item.amount}</Text>
+              <Button bg="gray.200" size="xs" onClick={()=> handleAddToCart(item)}><Icon as={FaPlus} /></Button>
         </Stack>
-        <Divider />
+          </Stack>
+          <Stack spacing={6}>
+            <Heading fontSize={15} fontFamily="500">{item.title}</Heading>
+            <HStack justifyContent="space-between">
+              <Text fontSize={13}>Precio: USD {item.price}</Text>
+              <Text fontSize={13}>Subtotal: USD {(item.amount * item.price).toFixed(2)}</Text>
+            </HStack>
+          </Stack>
+        </HStack>
+      </Stack>
+      <Divider />
     </Stack>
   )
 }

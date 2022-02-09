@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Radio,
   RadioGroup,
   Stack,
@@ -6,32 +6,33 @@ import { Radio,
   FormLabel,
   HStack,
   Text
-  } from '@chakra-ui/react'
+} from '@chakra-ui/react'
 import ClientFormInput from './ClientFormInput';
 
-const ClientAddressForm = ({isShippingMethod, setIsShippingMethod, setClientInfo, clientInfo})=> {
+const ClientAddressForm = ({ setClientInfo, clientInfo})=> {
+  const [shipping, setShipping] = useState("envio")
+  useEffect(()=>{
+    setShipping("envio")
+    setClientInfo({...clientInfo, shipping : true})
+  },[])
   
   const shippingOn = ()=> {
-    setIsShippingMethod(false)
+    setClientInfo({...clientInfo, shipping : true})
     setShipping("envio")
     console.log(shipping)
   }
   const shippingOff = ()=> {
-    setIsShippingMethod(true)
-    setShipping("retiro")
-    setClientInfo({...clientInfo,
+    setClientInfo({...clientInfo, 
+      shipping : false,
       address: "",
       zipCode: "",
       city: "",
-      province: "",
-      shipping: false,
-    })
+      province: ""
+      })
+    setShipping("retiro")
     console.log(shipping)
   }
-  const [shipping, setShipping] = useState("envio")
-  
-  console.log("hola", shipping)
-  return(
+    return(
     <>
       <Stack>
       <FormControl as='fieldset'>
@@ -49,10 +50,10 @@ const ClientAddressForm = ({isShippingMethod, setIsShippingMethod, setClientInfo
         </HStack>
       </RadioGroup>
     </FormControl>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="address" isDisabled={isShippingMethod} isRequired={true} type="text" label="Direccion"/>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="province" isDisabled={isShippingMethod} isRequired={true} type="text" label="Provincia"/>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="city" isDisabled={isShippingMethod} isRequired={true} type="text" label="Ciudad"/>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="zipCode" isDisabled={isShippingMethod} isRequired={true} type="number" label="Codigo postal"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="address" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Direccion"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="province" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Provincia"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="city" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Ciudad"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="zipCode" isDisabled={!clientInfo.shipping} isRequired={true} type="number" label="Codigo postal"/>
       </Stack>
     </>
   )
