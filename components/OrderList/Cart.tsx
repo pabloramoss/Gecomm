@@ -6,7 +6,7 @@ const Cart = ({cart, handleRemoveFromCart, handleAddToCart})=> {
     <>
     {cart.map(item => (
       <CartItem 
-      key={item.id}
+      key={item.title}
       item={item}
       handleAddToCart={handleAddToCart}
       handleRemoveFromCart={handleRemoveFromCart}

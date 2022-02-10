@@ -18,12 +18,13 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   
   const [cart, setCart] = useState([])
   const handleAddToCart = (clickedItem)=>{
+    console.log(clickedItem)
     setCart(prev=> {
       //1. Is the item already added in the cart?
-      const isItemInCart = prev.find(item => item.id === clickedItem.id)
+      const isItemInCart = prev.find(item => item.title === clickedItem.title)
       if(isItemInCart) {
         return prev.map(item => 
-          item.id === clickedItem.id 
+          item.title === clickedItem.title
           ? { ...item, amount: item.amount + 1}
           : item
         )
@@ -33,10 +34,10 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     })
   }
   
-  const handleRemoveFromCart = (id)=>{
+  const handleRemoveFromCart = (title)=>{
     setCart(prev => (
       prev.reduce((counter, item)=>{
-        if (item.id === id) {
+        if (item.title === title) {
           if (item.amount === 1) return counter;
           return [...counter, {...item, amount: item.amount -1}];
         }else{

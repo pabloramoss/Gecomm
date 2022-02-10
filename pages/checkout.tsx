@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Flex, Input, useClipboard, Badge, HStack, Divider } from '@chakra-ui/react';
-import Link from "next/link"
-import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle } from 'react-icons/fa';
+import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Flex, Link, Input, useClipboard, Badge, HStack, Divider, IconButton } from '@chakra-ui/react';
+import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
 import {GetStaticProps} from "next";
 import api from "../components/Checkout/api"
 import {useRouter} from "next/router"
+import CartItem from '../components/OrderList/CartItem';
+import CheckoutStep from '../components/Checkout/CheckoutSteps';
+import NavbarCheckout from '../components/ui/NavbarCheckout';
 
-const Checkout = ({cart, clientInfo, dolarPrice})=> {
+const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart})=> {
+  console.log(cart)
   const subTotalProducts = cart.map(item=>item.amount*item.price)
   const subTotal = subTotalProducts.reduce((counter, item)=> counter + item, 0)
   const iva = 21
@@ -20,10 +23,21 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
   const { hasCopied, onCopy } = useClipboard(CBU)
   const router = useRouter()
   const handleGoBack= ()=> router.push('/UserForm')
+  const chat_id = 1367188448
 
+  const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: $${totalAR}`).concat(`\nCliente: ${clientInfo.name}`)
+
+  const confirmPurchase = ()=>{
+    console.log(text)
+    api.message(chat_id, text)
+    onOpen()
+  }
+  console.log(text)
   return(
-    <Stack alignItems="center">
-      <Stack>
+    <Stack alignItems="center" bg="gray.100" minH="100vh">
+      <NavbarCheckout />
+      <CheckoutStep colorFirst="green" colorSecond="green" valueFirst="100" valueSecond="100" />
+      <Stack pt={10}>
         <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
         <Stack>
           <Heading fontSize={20}>Detalle de entrega</Heading>
@@ -59,17 +73,11 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
           text=""
           />
           <Stack bg="gray.300"p={5} borderRadius={10}>
-            <Grid templateColumns="5fr repeat(4,1fr)">
-              <Heading fontSize={15}>Producto</Heading>
-              <Heading justifySelf="center" fontSize={15}>Cantidad</Heading>
-              <Heading justifySelf="center" fontSize={15}>Precio</Heading>
-              <Heading justifySelf="center" fontSize={15}>IVA</Heading>
-              <Heading justifySelf="center" fontSize={15}>Subtotal</Heading>
-            </Grid>
-            {cart.map((product, index)=> <CheckoutList key={index} product={product} />)}
+            <Heading fontSize={15}>Productos</Heading>
+            {cart.map(product=> <CartItem key={product.title} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} item={product} />)}
             <Stack alignItems="end">
               <Heading fontSize={15}>Subtotal: USD {subTotal}</Heading>
-              <Heading fontSize={15}>IVA 21%: USD {subtotalIVA}</Heading>
+              <Heading fontSize={15}>IVA: USD {subtotalIVA}</Heading>
               <Heading fontSize={15}>Total: USD {total}</Heading>
               <Heading fontSize={15}>Equivalente en AR$: $ {Math.trunc(totalAR)}</Heading>
               <Heading fontSize={15}>Cotización del dólar: $ {dolarPrice}</Heading>
@@ -78,7 +86,7 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
       </Stack>
       <Stack direction="row" justifyContent="space-around">
         <Button onClick={handleGoBack} colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
-        <Button colorScheme="green" px={10} size="lg" onClick={onOpen}>Confirmar compra</Button>
+        <Button colorScheme="green" px={10} size="lg" onClick={confirmPurchase}>Confirmar compra</Button>
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent rounded="20">
@@ -116,10 +124,15 @@ const Checkout = ({cart, clientInfo, dolarPrice})=> {
                 <Badge p={2} rounded={10} fontSize="md">Gonzalo Javier Diaz</Badge>
               </Flex>
               {clientInfo.shipping===false
-              ? <Flex alignItems="center" justifyContent="space-between">
-                  <Text>Dirección:</Text>
-                  <Badge p={2} rounded={10} fontSize="md">Alvear 7929 - Santa Fe Capital</Badge>
-                </Flex>
+              ? <Stack>
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Text>Dirección:</Text>
+                    <Badge p={2} rounded={10} fontSize="md">Alvear 7929 - Santa Fe Capital</Badge>
+                  </Flex>
+                  <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
+                    <Button aria-label='whatsapp' colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
+                  </Link>
+                </Stack> 
               : ""
               }
               <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>

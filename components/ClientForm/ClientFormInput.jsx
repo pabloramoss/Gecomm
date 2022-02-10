@@ -17,6 +17,7 @@ const ClientFormInput = ({type, label, isRequired, isDisabled, name, setClientIn
             onChange={(e)=>setClientInfo({ ...clientInfo, [name]:e.target.value})}
             name={name}
             value={clientInfo[name]}
+            bg="white"
           />
         </FormControl>
       </Box>

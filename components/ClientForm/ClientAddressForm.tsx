@@ -30,7 +30,6 @@ const ClientAddressForm = ({ setClientInfo, clientInfo})=> {
       province: ""
       })
     setShipping("retiro")
-    console.log(shipping)
   }
     return(
     <>
@@ -41,11 +40,11 @@ const ClientAddressForm = ({ setClientInfo, clientInfo})=> {
         <HStack spacing='24px'>
           <Stack>
             <Radio onChange={()=>shippingOn()} value='envio'>Envio a domicilio</Radio>
-            <Text color="gray.300" alignSelf="start" fontSize={12}>Acordar con el vendedor</Text>
+            <Text color="gray.500" alignSelf="start" fontSize={12}>Acordar con el vendedor</Text>
           </Stack>
           <Stack>
             <Radio onChange={()=>shippingOff()} value='retiro'>Retiro en el local</Radio>
-            <Text color="gray.300" alignSelf="end" fontSize={12}>(Santa Fe Capital)</Text>
+            <Text color="gray.500" alignSelf="end" fontSize={12}>(Santa Fe Capital)</Text>
           </Stack>
         </HStack>
       </RadioGroup>

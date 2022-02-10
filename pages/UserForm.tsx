@@ -3,6 +3,8 @@ import { Stack, Button, HStack } from '@chakra-ui/react'
 import ClientInfoForm from '../components/ClientForm/ClientInfoForm';
 import ClientAddressForm from '../components/ClientForm/ClientAddressForm';
 import {useRouter} from "next/router"
+import CheckoutStep from '../components/Checkout/CheckoutSteps';
+import NavbarCheckout from '../components/ui/NavbarCheckout';
 
 const UserForm = ({setClientInfo, clientInfo})=> {
 
@@ -13,9 +15,11 @@ const UserForm = ({setClientInfo, clientInfo})=> {
   }
 
   return(
-    <Stack alignItems="center" mt={20}>
+    <Stack alignItems="center" bg="gray.100" height="100vh">
+      <NavbarCheckout />
+      <CheckoutStep colorFirst="green" colorSecond="gray.300" valueFirst="100" valueSecond="0"/>
         <form id='form' onSubmit={handleSubmit}>
-          <Stack borderRadius={20} p={10} direction="row" justifyContent="center" bg="gray.300">
+          <Stack my={10} borderRadius={10} p={10} direction="row" justifyContent="center" bg="gray.50">
             <ClientInfoForm clientInfo={clientInfo} setClientInfo={setClientInfo}/>
             <ClientAddressForm
             setClientInfo={setClientInfo}
