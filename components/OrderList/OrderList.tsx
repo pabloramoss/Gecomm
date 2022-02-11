@@ -68,16 +68,16 @@ const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
             <Stack my={3} spacing={4} width="100%">
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18} opacity={0.6}>Subtotal:</Heading>
-                <Heading fontSize={18} opacity={0.6}>USD {parseCurrency(subtotalPrice(cart))}</Heading>
+                <Heading fontSize={18} opacity={0.6}>US{parseCurrency(subtotalPrice(cart))}</Heading>
               </HStack>
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18} opacity={0.6}>IVA:</Heading>
-                <Heading fontSize={18} opacity={0.6}>USD {parseCurrency(Math.trunc(subtotalIVA(cart)))}</Heading>
+                <Heading fontSize={18} opacity={0.6}>US{parseCurrency(Math.trunc(subtotalIVA(cart)))}</Heading>
               </HStack>
               <Divider />
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18}>Total:</Heading>
-                <Heading fontSize={18}>USD {parseCurrency(Math.trunc(totalPrice(cart)))}</Heading>
+                <Heading fontSize={18}>US{parseCurrency(Math.trunc(totalPrice(cart)))}</Heading>
               </HStack>
             </Stack>
             <Link href="/UserForm" passHref>

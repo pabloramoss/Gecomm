@@ -1,23 +1,18 @@
 import React, {useState} from "react";
 import { Heading, Stack, Text, Image, Divider, Button} from "@chakra-ui/react"
-import Link from "next/link"
 
 const ProductCard = ({product})=> {
   const [cart, setCart] = useState([])
 
   return(
     <Stack bg="gray.100" _hover={{boxShadow:"dark-lg"}}>
-      <Link href={`/product/${product.id}`}>
-        <a>
-          <Image src={product.image} h={300} w={300} objectFit="cover" alt={product.title} />
-          <Divider />
-          <Stack p={5}>
-            <Heading fontSize={22} fontWeight={600}>{product.price}</Heading>
-            <Text color="gray.600" fontSize={15}>{product.title}</Text>
-          </Stack>
-        </a>
-        <Button onClick={()=>setCart(cart => cart.concat(product))}>Agregar al carrito</Button>
-      </Link>
+      <Image src={product.image} h={300} w={300} objectFit="cover" alt={product.title} />
+      <Divider />
+      <Stack alignSelf="end" p={5}>
+        <Text color="gray.600" fontSize={15}>{product.title}</Text>
+        <Text color="gray.600" fontSize={15}>{product.description}</Text>
+      </Stack>
+    <Button onClick={()=>setCart(cart => cart.concat(product))}>Agregar al carrito</Button>
     </Stack>
   )
 }

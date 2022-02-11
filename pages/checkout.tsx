@@ -32,7 +32,6 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
   const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: $${totalAR}`).concat(`\nCliente: ${clientInfo.name}`)
 
   const confirmPurchase = ()=>{
-    console.log(text)
     api.message(chat_id, text)
     api.postDB(clientInfo, transactionDate, uniqueID)
     onOpen()
