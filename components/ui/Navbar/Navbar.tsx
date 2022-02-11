@@ -9,9 +9,9 @@ const Navbar: React.FC = ()=> {
 
   return(
     <Stack py={3} bg="white" pos="fixed" w="100%" zIndex={100}>
-      <Container maxW="container.xl" px={["16px", "16px", "16px", "0"]}>
+      <Container maxW="container.xl">
         <HStack justifyContent="space-between" alignItems="end">
-          <Image src='https://via.placeholder.com/50' alt='logo'/>
+          <Image src='/images/gecomm-logo.png' alt='logo'/>
           <Stack
             display={["none", "none", "none", "flex"]}
             direction="row" 

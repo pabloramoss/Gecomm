@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Flex, Link, Input, useClipboard, Badge, HStack, Divider, IconButton } from '@chakra-ui/react';
+import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Box, Flex, Link, Input, useClipboard, Badge, HStack, Divider, IconButton } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import CheckoutList from '../components/Checkout/CheckoutList';
@@ -8,7 +8,9 @@ import api from "../components/Checkout/api"
 import {useRouter} from "next/router"
 import CartItem from '../components/OrderList/CartItem';
 import CheckoutStep from '../components/Checkout/CheckoutSteps';
+import EmptyCart from '../components/Checkout/EmptyCart';
 import NavbarCheckout from '../components/ui/NavbarCheckout';
+import parseCurrency from '../components/product/parseCurrency';
 
 const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart})=> {
   console.log(cart)
@@ -24,67 +26,74 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
   const router = useRouter()
   const handleGoBack= ()=> router.push('/UserForm')
   const chat_id = 1367188448
+  const uniqueID = String(new Date().getTime())
+  const transactionDate = new Date().toISOString().slice(0, 10)
 
   const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: $${totalAR}`).concat(`\nCliente: ${clientInfo.name}`)
 
   const confirmPurchase = ()=>{
     console.log(text)
     api.message(chat_id, text)
+    api.postDB(clientInfo, transactionDate, uniqueID)
     onOpen()
   }
-  console.log(text)
   return(
     <Stack alignItems="center" bg="gray.100" minH="100vh">
       <NavbarCheckout />
+      {(total >0) 
+      ?
+      <Box>
       <CheckoutStep colorFirst="green" colorSecond="green" valueFirst="100" valueSecond="100" />
-      <Stack pt={10}>
-        <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
+      <Stack pt={10} direction={["column","column","row","row"]} spacing={10}>
         <Stack>
-          <Heading fontSize={20}>Detalle de entrega</Heading>
-          {clientInfo.shipping===true
-          ?<CheckoutCard 
-          icon={FaTruck}
-          title="Envio a domicilio"
-          text=""
-          />
-          :<CheckoutCard 
-          icon={FaTruck}
-          title="Retiro en el local"
-          text=""
-          />
-          }
-          {clientInfo.shipping===true
-          ?<CheckoutCard 
-          icon={FaMapMarkerAlt}
-          title={clientInfo.address}
-          text={clientInfo.zipCode + " - " + clientInfo.province + " - " + clientInfo.city }
-          />
-          :<CheckoutCard 
-          icon={FaMapMarkerAlt}
-          title="Alvear 7929"
-          text="Santa Fe Capital"
-          />
-          }
+          <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
+          <Stack>
+            <Heading fontSize={20}>Detalle de entrega</Heading>
+            {clientInfo.shipping===true
+            ?<CheckoutCard 
+            icon={FaTruck}
+            title="Envio a domicilio"
+            text=""
+            />
+            :<CheckoutCard 
+            icon={FaTruck}
+            title="Retiro en el local"
+            text=""
+            />
+            }
+            {clientInfo.shipping===true
+            ?<CheckoutCard 
+            icon={FaMapMarkerAlt}
+            title={clientInfo.address}
+            text={clientInfo.zipCode + " - " + clientInfo.province + " - " + clientInfo.city }
+            />
+            :<CheckoutCard 
+            icon={FaMapMarkerAlt}
+            title="Alvear 7929"
+            text="Santa Fe Capital"
+            />
+            }
+          </Stack>
+          <Heading fontSize={20}>Forma de pago</Heading>
+          <CheckoutCard 
+            icon={FaUniversity}
+            title="Transferencia bancaria"
+            text=""
+            />
         </Stack>
-        <Heading fontSize={20}>Forma de pago</Heading>
-        <CheckoutCard 
-          icon={FaUniversity}
-          title="Transferencia bancaria"
-          text=""
-          />
           <Stack bg="gray.300"p={5} borderRadius={10}>
             <Heading fontSize={15}>Productos</Heading>
             {cart.map(product=> <CartItem key={product.title} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} item={product} />)}
             <Stack alignItems="end">
-              <Heading fontSize={15}>Subtotal: USD {subTotal}</Heading>
-              <Heading fontSize={15}>IVA: USD {subtotalIVA}</Heading>
-              <Heading fontSize={15}>Total: USD {total}</Heading>
-              <Heading fontSize={15}>Equivalente en AR$: $ {Math.trunc(totalAR)}</Heading>
-              <Heading fontSize={15}>Cotización del dólar: $ {dolarPrice}</Heading>
+              <Heading color="gray.500" fontSize={15}>Subtotal: US{parseCurrency(subTotal)}</Heading>
+              <Heading color="gray.500" fontSize={15}>IVA: US{parseCurrency(subtotalIVA)}</Heading>
+              <Heading color="gray.500" fontSize={15}>Total: US{parseCurrency(total)}</Heading>
+              <Heading color="gray.500" fontSize={15}>Cotización del dólar: $ {dolarPrice}</Heading>
+              <Heading fontSize={15}>Equivalente en AR{parseCurrency(Math.trunc(totalAR))}</Heading>
             </Stack>
           </Stack>
       </Stack>
-      <Stack direction="row" justifyContent="space-around">
+      <Stack direction="row" justifyContent="space-around" py={10}>
         <Button onClick={handleGoBack} colorScheme="blue" px={5} size="lg"><Icon as={FaArrowLeft} me={3}/>Volver</Button>
         <Button colorScheme="green" px={10} size="lg" onClick={confirmPurchase}>Confirmar compra</Button>
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
@@ -92,13 +101,12 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
         <ModalContent rounded="20">
           <Icon mt={20} alignSelf="center" h={12} w={12} color="green.300" as={FaRegCheckCircle} />
           <ModalHeader alignSelf="center" roundedTop={20}>Pedido realizado</ModalHeader>
-          <ModalCloseButton />
           <ModalBody roundedBottom={20} pb={6}>
             <Stack width="100%">
               <Text>Recibimos su pedido exitosamente</Text>
               <Flex align="center">
                 <Text me={2}>El código de referencia es:</Text>
-                <Heading fontSize={15}>asasf124kjfdskj23</Heading>
+                <Heading fontSize={15}>{uniqueID}</Heading>
               </Flex>
               <Stack width="100%" direction="row" align="center">
                 <Icon w={10} h={10} bg="gray.200" p={2} borderRadius="full" as={FaDollarSign}></Icon>
@@ -129,18 +137,23 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
                     <Text>Dirección:</Text>
                     <Badge p={2} rounded={10} fontSize="md">Alvear 7929 - Santa Fe Capital</Badge>
                   </Flex>
-                  <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
-                    <Button aria-label='whatsapp' colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
-                  </Link>
+                  
                 </Stack> 
               : ""
               }
+              <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
+                    <Button aria-label='whatsapp' colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
+                  </Link>
               <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>
             </Stack>
           </ModalBody>
         </ModalContent>
       </Modal>
       </Stack>
+      </Box>
+      :
+      <EmptyCart />
+      }
       
     </Stack>
   )

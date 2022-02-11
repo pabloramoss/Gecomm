@@ -18,7 +18,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   
   const [cart, setCart] = useState([])
   const handleAddToCart = (clickedItem)=>{
-    console.log(clickedItem)
     setCart(prev=> {
       //1. Is the item already added in the cart?
       const isItemInCart = prev.find(item => item.title === clickedItem.title)

@@ -21,6 +21,7 @@ import React from 'react';
 import Link from "next/link"
 import { FaShoppingCart } from 'react-icons/fa';
 import Cart from './Cart';
+import parseCurrency from '../product/parseCurrency';
 
 
 const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
@@ -67,16 +68,16 @@ const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
             <Stack my={3} spacing={4} width="100%">
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18} opacity={0.6}>Subtotal:</Heading>
-                <Heading fontSize={18} opacity={0.6}>USD {subtotalPrice(cart)}</Heading>
+                <Heading fontSize={18} opacity={0.6}>USD {parseCurrency(subtotalPrice(cart))}</Heading>
               </HStack>
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18} opacity={0.6}>IVA:</Heading>
-                <Heading fontSize={18} opacity={0.6}>USD {Math.trunc(subtotalIVA(cart))}</Heading>
+                <Heading fontSize={18} opacity={0.6}>USD {parseCurrency(Math.trunc(subtotalIVA(cart)))}</Heading>
               </HStack>
               <Divider />
               <HStack width="100%" justifyContent="space-between">
                 <Heading fontSize={18}>Total:</Heading>
-                <Heading fontSize={18}>USD {Math.trunc(totalPrice(cart))}</Heading>
+                <Heading fontSize={18}>USD {parseCurrency(Math.trunc(totalPrice(cart)))}</Heading>
               </HStack>
             </Stack>
             <Link href="/UserForm" passHref>

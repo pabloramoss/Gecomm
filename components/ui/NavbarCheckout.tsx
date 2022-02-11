@@ -7,7 +7,7 @@ const NavbarCheckout: React.FC = ()=> {
 
   return(
     <Stack py={3} bg="white" pos="fixed" w="100%" zIndex={100}>
-      <Container maxW="container.xl" px={["16px", "16px", "16px", "0"]}>
+      <Container maxW="container.xl">
         <HStack justifyContent="space-between" alignItems="end">
           <Image src='https://via.placeholder.com/50' alt='gecomm logo'/>
           <Link href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>

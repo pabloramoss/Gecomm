@@ -7,6 +7,8 @@ import Navbar from "../components/ui/Navbar/Navbar";
 import Link from "next/link"
 import OrderList from "../components/OrderList/OrderList";
 import { FaTruck } from 'react-icons/fa';
+import parseCurrency from "../components/product/parseCurrency";
+
 
 const IndexRoute = ({products, handleAddToCart, handleRemoveFromCart, cart})=>{
   const productsGrouping = products.reduce((a, { category, title, price, iva, image  }) => {
@@ -26,7 +28,7 @@ const productsSection = productsGrouping.map(productCat=>(
         <Icon zIndex={10} position="absolute" right="10%" top="53%" color="green.400" h={10} w={10} p={2} bg="white" as={FaTruck} borderRadius="full" />
         <Divider />
         <Stack alignItems="space-between" p={5}>
-          <Heading fontSize={22} fontWeight={600}> USD {product.price}<Badge ms={3} borderRadius={5}>+IVA({product.iva}%)</Badge></Heading>
+          <Heading fontSize={22} fontWeight={600}> US{parseCurrency(parseInt(product.price))}<Badge ms={3} borderRadius={5}>+IVA({product.iva}%)</Badge></Heading>
           <Text justifySelf="center" color="gray.600" fontSize={15}>{product.title}</Text>
           <Button colorScheme="blue" onClick={()=>handleAddToCart(product)}>Agregar al carrito</Button>
         </Stack>
@@ -36,20 +38,12 @@ const productsSection = productsGrouping.map(productCat=>(
       </Grid>
   </Stack>
   ))
-  
 
   return (
     <Stack bg="gray.200">
       <Navbar/>
-      <Stack position="relative" bg="blue.400" height="350px">
-        <Stack position="absolute" bottom={0} left={40} py={20} w={450}>
-          <Heading fontSize={30}>Experiencia, responsabilidad y profesionalismo en la provisión de materiales.</Heading>
-          <Text fontWeight={600}>Mayorista en telecomunicaciones</Text>
-
-        </Stack>
-      </Stack>
       <Heading pt={20} fontSize={30} alignSelf="center">PRODUCTOS</Heading>
-      <Container maxW="container.xl" alignSelf="center" p={0} pt={5}>
+      <Container maxW="container.xl" alignSelf="center" pt={5}>
         {productsSection}
       </Container>
       <Flex position="fixed" zIndex={50}>

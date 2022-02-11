@@ -1,11 +1,12 @@
 import React from 'react';
 import { Stack, Button, Text, Image, Icon, Divider, Heading, HStack, VStack } from '@chakra-ui/react'
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import parseCurrency from '../product/parseCurrency';
 
 /* type Props = {
   item: CartItemType;
-  addToCart: (clickedItem: CartItemType) => void;
-  removeFromCart: (id: number) => void;
+  handleAddToCart: (clickedItem: CartItemType) => void;
+  handleRemoveFromCart: (id: number) => void;
 } */
 
 
@@ -26,8 +27,9 @@ const CartItem = ({item, handleAddToCart, handleRemoveFromCart})=> {
           <Stack w="100%" spacing={6}>
             <Heading fontSize={15} fontFamily="500">{item.title}</Heading>
             <HStack justifyContent="space-between">
-              <Text fontSize={13}>Precio: USD {item.price}</Text>
-              <Text fontSize={13}>Subtotal: USD {(item.amount * item.price).toFixed(2)}</Text>
+              <Text fontSize={13}>Precio: US{parseCurrency(parseInt(item.price))}</Text>
+              <Text fontSize={13}>IVA: {item.iva}%</Text>
+              <Text fontSize={13}>Subtotal: US{parseCurrency(parseInt((item.amount * item.price).toFixed(2)))}</Text>
             </HStack>
           </Stack>
         </HStack>
