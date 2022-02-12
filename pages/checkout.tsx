@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Box, Flex, Link, Input, useClipboard, Badge, HStack, Divider, IconButton } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
-import CheckoutList from '../components/Checkout/CheckoutList';
 import {GetStaticProps} from "next";
 import api from "../components/Checkout/api"
 import {useRouter} from "next/router"
@@ -11,6 +10,9 @@ import CheckoutStep from '../components/Checkout/CheckoutSteps';
 import EmptyCart from '../components/Checkout/EmptyCart';
 import NavbarCheckout from '../components/ui/NavbarCheckout';
 import parseCurrency from '../components/product/parseCurrency';
+
+const uniqueID = String(Date.now())
+const transactionDate = new Date().toISOString().slice(0, 10)
 
 const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart})=> {
   console.log(cart)
@@ -26,16 +28,17 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
   const router = useRouter()
   const handleGoBack= ()=> router.push('/UserForm')
   const chat_id = 1367188448
-  const uniqueID = String(new Date().getTime())
-  const transactionDate = new Date().toISOString().slice(0, 10)
 
-  const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: $${totalAR}`).concat(`\nCliente: ${clientInfo.name}`)
+console.log(uniqueID)
+  const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: ${parseCurrency(totalAR)}`).concat(`\nCliente: ${clientInfo.name}\nCódigo: ${uniqueID}`)
 
   const confirmPurchase = ()=>{
     api.message(chat_id, text)
     api.postDB(clientInfo, transactionDate, uniqueID)
     onOpen()
   }
+  console.log("el Id es ",uniqueID)
+  console.log(typeof(uniqueID))
   return(
     <Stack alignItems="center" bg="gray.100" minH="100vh">
       <NavbarCheckout />
@@ -110,7 +113,7 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
               <Stack width="100%" direction="row" align="center">
                 <Icon w={10} h={10} bg="gray.200" p={2} borderRadius="full" as={FaDollarSign}></Icon>
                 <Text>Solo te falta pagar</Text>
-                <Badge alignSelf="end" p={2} rounded={10} fontSize="md">$ {totalAR}</Badge>
+                <Badge alignSelf="end" p={2} rounded={10} fontSize="md">{parseCurrency(totalAR)}</Badge>
               </Stack>
               <Divider />
               <HStack>
@@ -140,7 +143,7 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
                 </Stack> 
               : ""
               }
-              <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
+              <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=543424270884&message' isExternal>
                     <Button aria-label='whatsapp' colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
                   </Link>
               <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>

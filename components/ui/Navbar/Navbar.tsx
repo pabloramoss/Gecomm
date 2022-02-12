@@ -11,7 +11,7 @@ const Navbar = ({categories})=> {
     <Stack display={["flex", "flex", "flex", "none"]} py={3} bg="white" pos="fixed" w="100%" zIndex={100}>
       <Container maxW="container.xl">
         <HStack justifyContent="space-between" alignItems="end">
-          <Image src='/images/gecomm-logo.png' alt='logo'/>
+          <Image src='/images/gecomm-logo.png' alt='gecomm logo'/>
           <Stack
             display={["none", "none", "none", "flex"]}
             direction="row" 
@@ -24,7 +24,7 @@ const Navbar = ({categories})=> {
             <NextLink href="/#herramientas" scroll><Button size="sm">Herramientas</Button></NextLink>
             <NextLink href="/#morseteria" scroll><Button size="sm">Morseteria</Button></NextLink>
           </Stack>
-          <Link href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
+          <Link href='https://api.whatsapp.com/send?phone=543424270884&message' isExternal>
             <Icon w={10} h={10} as={FaWhatsappSquare} color="green.400" display={["none", "none", "none", "flex"]} />
           </Link>
           <Button onClick={onOpen } display={["flex", "flex", "flex", "none"]}><FaBars /></Button>
@@ -39,7 +39,7 @@ const Navbar = ({categories})=> {
               </DrawerHeader>
               <DrawerBody>
                 {categories.map(category=><Stack gap={3} key={category}><NextLink href="#" scroll><Button my={3} colorScheme="blue">{category}</Button></NextLink></Stack>)}
-                <Link href='https://api.whatsapp.com/send?phone=5493424636292&text=Hola.%20Que%20tal.%20' isExternal>
+                <Link href='https://api.whatsapp.com/send?phone=543424270884&message' isExternal>
                   <Button mt={10} width="100%" colorScheme="green" leftIcon={<FaWhatsapp />}>Contactate</Button>
                 </Link>
               </DrawerBody>
