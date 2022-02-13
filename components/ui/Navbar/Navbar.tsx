@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, Stack, Image, Heading, Link, Container, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, Menu, MenuItem, MenuButton, MenuList, useDisclosure} from "@chakra-ui/react"
+import {Icon, Stack, Image, Heading, Link, Container, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, useDisclosure} from "@chakra-ui/react"
 import { FaBars, FaWindowClose, FaWhatsappSquare, FaWhatsapp } from 'react-icons/fa';
 import NextLink from "next/link"
 

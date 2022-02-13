@@ -3,10 +3,6 @@ import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react'
 
 const ClientFormInput = ({type, label, isRequired, isDisabled, name, setClientInfo, clientInfo})=> {
 
-  const handleInfoChange = e => {
-    setClientInfo({...clientInfo, [e.target.name]:e.target.value})
-  }
-
   return(
     <>
       <Box>

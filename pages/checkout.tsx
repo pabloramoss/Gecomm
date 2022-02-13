@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Stack, Text, Heading, Icon, Grid, GridItem, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Box, Flex, Link, Input, useClipboard, Badge, HStack, Divider, IconButton } from '@chakra-ui/react';
+import React from 'react'
+import { Stack, Text, Heading, Icon, Button, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, useDisclosure, Box, Flex, Link, useClipboard, Badge, HStack, Divider } from '@chakra-ui/react';
 import { FaMapMarkerAlt, FaTruck, FaUniversity, FaArrowLeft, FaDollarSign, FaUserCircle, FaRegCheckCircle, FaWhatsapp } from 'react-icons/fa';
 import CheckoutCard from '../components/Checkout/CheckoutCard';
 import {GetStaticProps} from "next";
@@ -146,7 +146,7 @@ console.log(uniqueID)
               <Link pt={10} alignSelf="center" href='https://api.whatsapp.com/send?phone=543424270884&message' isExternal>
                     <Button aria-label='whatsapp' colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
                   </Link>
-              <Text pt={10} alignSelf="center">Muchas gracias por confiar en Gecomm!</Text>
+              <Text pt={10} alignSelf="center">¡Muchas gracias por confiar en Gecomm!</Text>
             </Stack>
           </ModalBody>
         </ModalContent>

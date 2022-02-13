@@ -1,6 +1,6 @@
 import React from 'react';
-import {Icon, Stack, Image, Heading, Link, Divider, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, Menu, MenuItem, MenuButton, Text, useDisclosure} from "@chakra-ui/react"
-import { FaBars, FaWindowClose, FaWhatsappSquare, FaWhatsapp } from 'react-icons/fa';
+import {Stack, Image, Heading, Link, Divider, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, Text, useDisclosure} from "@chakra-ui/react"
+import { FaBars, FaWindowClose, FaWhatsapp } from 'react-icons/fa';
 import NextLink from "next/link"
 
 const Aside = ({categories})=> {
@@ -19,7 +19,7 @@ const Aside = ({categories})=> {
               >
                 <Heading color="blue.600" alignSelf="center" fontSize={18}>CATEGORÍAS</Heading>
                 <Divider />
-                {categories.map(category=><NextLink key={category} href="/"><Button colorScheme="blue" size="sm" w="80%">{category}</Button></NextLink>)}
+                {categories.map(category=><NextLink key={category} href={`/#${category}`}><Button colorScheme="blue" size="sm" w="80%">{category}</Button></NextLink>)}
               {/* <NextLink href="#fibra-optica" passHref><Button colorScheme="blue" size="sm">Fibra optica</Button></NextLink>
               <NextLink href="#caja-empalmes" passHref><Button size="sm">Caja de empalmes</Button></NextLink>
               <NextLink href="#splitters" passHref><Button size="sm">Splitters de fibra optica</Button></NextLink>

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Stack, Button, Text, Image, Icon, Divider, Heading, HStack, VStack, Box, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from '@chakra-ui/react'
-import { FaPlus, FaMinus, FaShoppingBag, FaUserCircle, FaFlag, FaCheckCircle } from 'react-icons/fa';
+import { HStack, Slider, SliderFilledTrack, SliderTrack } from '@chakra-ui/react'
 
 /* type Props = {
   item: CartItemType;

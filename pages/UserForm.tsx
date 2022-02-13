@@ -29,7 +29,7 @@ const UserForm = ({setClientInfo, clientInfo})=> {
             </Stack>
           </form>
         <HStack justifyContent="space-around" w="100%" pb={50}>
-          <Button width={150} onClick={()=>router.push("/")} colorScheme="blue">Atras</Button>
+          <Button width={150} onClick={()=>router.push("/")} colorScheme="blue">Atrás</Button>
           <Button type='submit' onSubmit={(e)=>handleSubmit(e)} form='form' width={150} colorScheme="green">Siguiente</Button>
         </HStack>
       </Stack>

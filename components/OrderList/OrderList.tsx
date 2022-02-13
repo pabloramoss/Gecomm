@@ -1,34 +1,18 @@
-import { 
-  Button, 
-  Drawer, 
-  Icon, 
-  DrawerOverlay, 
-  DrawerContent, 
-  DrawerHeader, 
-  DrawerBody, 
-  useDisclosure, 
-  DrawerCloseButton, 
-  DrawerFooter, 
-  Flex, 
-  Text, 
-  Stack, 
-  Divider, 
-  VStack,
-  Heading,
-  HStack
+import {
+  Button, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, Heading,
+  HStack, Icon, Stack, useDisclosure, VStack
 } from '@chakra-ui/react';
+import Link from "next/link";
 import React from 'react';
-import Link from "next/link"
 import { FaShoppingCart } from 'react-icons/fa';
-import Cart from './Cart';
 import parseCurrency from '../product/parseCurrency';
+import Cart from './Cart';
 
 
 const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = React.useRef()
 
-  const IVA = 21
   const getTotalItems = (items => items.reduce((counter, item)=> counter + item.amount, 0) )
   const subtotalPrice = (items => items.reduce((counter, item)=> counter + item.amount * item.price, 0))
   //const subtotalIVA = (items => items.reduce((counter, item)=> (counter + item.amount * item.price) * (IVA/100), 0))

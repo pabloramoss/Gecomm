@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Icon, Heading, Text, Box, Flex } from '@chakra-ui/react';
+import { Stack, Icon, Heading, Text, Flex } from '@chakra-ui/react';
 
 const CheckoutCard = ({icon, title, text})=> {
 

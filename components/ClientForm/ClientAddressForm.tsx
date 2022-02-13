@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Radio,
+import { 
+  Radio,
   RadioGroup,
   Stack,
   FormControl,
@@ -35,11 +36,11 @@ const ClientAddressForm = ({ setClientInfo, clientInfo})=> {
     <>
       <Stack>
       <FormControl as='fieldset'>
-      <FormLabel as='legend'>Tipo de envio</FormLabel>
+      <FormLabel as='legend'>Tipo de envío</FormLabel>
       <RadioGroup defaultValue={shipping}>
         <HStack spacing='24px'>
           <Stack>
-            <Radio onChange={()=>shippingOn()} value='envio'>Envio a domicilio</Radio>
+            <Radio onChange={()=>shippingOn()} value='envio'>Envío a domicilio</Radio>
             <Text color="gray.500" alignSelf="start" fontSize={12}>Acordar con el vendedor</Text>
           </Stack>
           <Stack>
@@ -49,10 +50,10 @@ const ClientAddressForm = ({ setClientInfo, clientInfo})=> {
         </HStack>
       </RadioGroup>
     </FormControl>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="address" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Direccion"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="address" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Dirección"/>
         <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="province" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Provincia"/>
         <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="city" isDisabled={!clientInfo.shipping} isRequired={true} type="text" label="Ciudad"/>
-        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="zipCode" isDisabled={!clientInfo.shipping} isRequired={true} type="number" label="Codigo postal"/>
+        <ClientFormInput clientInfo={clientInfo} setClientInfo={setClientInfo} name="zipCode" isDisabled={!clientInfo.shipping} isRequired={true} type="number" label="Código postal"/>
       </Stack>
     </>
   )

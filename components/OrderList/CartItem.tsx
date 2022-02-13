@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Button, Text, Image, Icon, Divider, Heading, HStack, VStack } from '@chakra-ui/react'
+import { Stack, Button, Text, Image, Icon, Divider, Heading, HStack } from '@chakra-ui/react'
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import parseCurrency from '../product/parseCurrency';
 

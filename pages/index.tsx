@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import {GetStaticProps} from "next";
-import {Product} from "../components/product/types";
 import api from "../components/product/api";
 import {useDisclosure, Grid, Heading, Stack, Text, Image, Divider, Button, Flex, Icon, Container, Badge} from "@chakra-ui/react"
 import Navbar from "../components/ui/Navbar/Navbar";
 import Aside from "../components/ui/Aside";
-import Link from "next/link"
 import OrderList from "../components/OrderList/OrderList";
 import { FaTruck } from 'react-icons/fa';
 import parseCurrency from "../components/product/parseCurrency";
