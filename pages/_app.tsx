@@ -15,6 +15,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
     province: "",
     shipping: true,
   })
+  const [productOnHover, setProductOnHover] = useState()
   
   const [cart, setCart] = useState([])
   const handleAddToCart = (clickedItem)=>{
@@ -55,6 +56,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           cart={cart}
           clientInfo={clientInfo}
           setClientInfo={setClientInfo}
+          productOnHover={productOnHover}
+          setProductOnHover={setProductOnHover}
         />
     </ChakraProvider>
   );

@@ -45,8 +45,8 @@ console.log(uniqueID)
       {(total >0) 
       ?
       <Box>
-      <CheckoutStep colorFirst="green" colorSecond="green" valueFirst="100" valueSecond="100" />
-      <Stack pt={10} direction={["column","column","row","row"]} spacing={10}>
+      <CheckoutStep value="100" />
+      <Stack mt={["80px","80px","30px","30px"]} direction={["column","column","row","row"]} spacing={10}>
         <Stack>
           <Heading fontSize={25}>Revisá y confirmá tu compra</Heading>
           <Stack>

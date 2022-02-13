@@ -17,20 +17,22 @@ const UserForm = ({setClientInfo, clientInfo})=> {
   return(
     <Stack alignItems="center" bg="gray.100" height="100vh">
       <NavbarCheckout />
-      <CheckoutStep colorFirst="green" colorSecond="gray.300" valueFirst="100" valueSecond="0"/>
-        <form id='form' onSubmit={handleSubmit}>
-          <Stack my={10} borderRadius={10} p={10} direction="row" justifyContent="center" bg="gray.50">
-            <ClientInfoForm clientInfo={clientInfo} setClientInfo={setClientInfo}/>
-            <ClientAddressForm
-            setClientInfo={setClientInfo}
-            clientInfo={clientInfo}
-            />
-          </Stack>
-        </form>
-      <HStack>
-        <Button width={100} onClick={()=>router.push("/")} colorScheme="blue">Atras</Button>
-        <Button type='submit' onSubmit={()=>handleSubmit(e)} form='form' width={100} colorScheme="green">Siguiente</Button>
-      </HStack>
+      <Stack mt={20} pt={["100px","0","0","0"]} alignItems="center">
+          <form id='form' onSubmit={handleSubmit}>
+          <CheckoutStep value="50"/>
+            <Stack mb={10} borderRadius={10} p={10} direction={["column","column","row","row",]} justifyContent="center" bg="gray.50">
+              <ClientInfoForm clientInfo={clientInfo} setClientInfo={setClientInfo}/>
+              <ClientAddressForm
+              setClientInfo={setClientInfo}
+              clientInfo={clientInfo}
+              />
+            </Stack>
+          </form>
+        <HStack justifyContent="space-around" w="100%" pb={50}>
+          <Button width={150} onClick={()=>router.push("/")} colorScheme="blue">Atras</Button>
+          <Button type='submit' onSubmit={(e)=>handleSubmit(e)} form='form' width={150} colorScheme="green">Siguiente</Button>
+        </HStack>
+      </Stack>
     </Stack>
   )
 }

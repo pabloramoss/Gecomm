@@ -9,23 +9,15 @@ import { FaPlus, FaMinus, FaShoppingBag, FaUserCircle, FaFlag, FaCheckCircle } f
 } */
 
 
-const CheckoutStep = ({colorFirst,colorSecond, valueFirst, valueSecond})=> {
+const CheckoutStep = ({value})=> {
 
   return(
-    <HStack pt={20} width="480px" display={["none","flex","flex","flex"]}>
-      <Icon color="green" w={6} h={6} as={FaShoppingBag} />
-      <Slider aria-label='slider-ex-4' defaultValue={30} isDisabled value={valueFirst}>
-        <SliderTrack bg='red.100'>
+    <HStack my={20} display={["none","flex","flex","flex"]}>
+      <Slider aria-label='slider' isDisabled value={value}>
+        <SliderTrack>
           <SliderFilledTrack bg='green' />
         </SliderTrack>
       </Slider>
-      <Icon color={colorFirst} w={6} h={6} as={FaUserCircle} />
-      <Slider aria-label='slider-ex-4' defaultValue={30} isDisabled value={valueSecond}>
-        <SliderTrack bg='red.100'>
-          <SliderFilledTrack bg='green' />
-        </SliderTrack>
-      </Slider>
-      <Icon color={colorSecond} w={6} h={6} as={FaFlag} />
     </HStack>
   )
 }
