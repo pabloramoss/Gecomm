@@ -14,7 +14,7 @@ import parseCurrency from '../components/product/parseCurrency';
 const uniqueID = String(Date.now())
 const transactionDate = new Date().toISOString().slice(0, 10)
 
-const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart})=> {
+const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart, chat_id})=> {
   console.log(cart)
   const subTotalProducts = cart.map(item=>item.amount*item.price)
   const subTotal = subTotalProducts.reduce((counter, item)=> counter + item, 0)
@@ -27,7 +27,6 @@ const Checkout = ({cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFr
   const { hasCopied, onCopy } = useClipboard(CBU)
   const router = useRouter()
   const handleGoBack= ()=> router.push('/UserForm')
-  const chat_id = 1367188448
 
 console.log(uniqueID)
   const text = cart.reduce((message, product)=> message.concat(`* ${product.title} - x${product.amount}\n`),"").concat(`\nTotal: ${parseCurrency(totalAR)}`).concat(`\nCliente: ${clientInfo.name}\nCódigo: ${uniqueID}`)
@@ -162,9 +161,12 @@ console.log(uniqueID)
 }
 export const getStaticProps: GetStaticProps = async () => {
   const dolarPrice = parseInt(await api.dolarBlue())
+  const chat_id = 1367188448
+
   return {
     props: {
       dolarPrice,
+      chat_id,
     },
   };
 };

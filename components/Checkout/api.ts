@@ -3,24 +3,16 @@ import axios from "axios"
 const urlPurchaseDB = "https://sheet.best/api/sheets/92cafec5-fa4f-4efb-8fab-eebddfbbdb18"
 
 export default {
-  list: async () => {
-    return axios.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales").then(
-      response => {
-        const dolarPrices = response.data
-        return dolarPrices
-      }
-    )
-  },
    dolarBlue: async () => {
     return axios.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales").then(
       response => {
         const dolarBluePrice = response.data[1].casa.venta
         return dolarBluePrice
       }
-    )
+    ).catch(error => console.log(error))
   },
   message: async (chat_id, text) =>{
-    return axios.post(`https://api.telegram.org/bot5165116240:AAFAI03uGZhb2C7Wg6TGkdhQ6Jg4DMJauSo/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`)
+    return axios.post(`https://api.telegram.org/bot5165116240:AAFAI03uGZhb2C7Wg6TGkdhQ6Jg4DMJauSo/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`).catch(error => console.log(error))
   },
   postDB: async (clientInfo, uniqueID, transactionDate)=>{
     const objectDB = {
