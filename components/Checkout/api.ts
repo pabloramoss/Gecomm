@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const urlPurchaseDB = "https://sheet.best/api/sheets/92cafec5-fa4f-4efb-8fab-eebddfbbdb18"
+const urlPurchaseDB = process.env.URL_SHEET
 
 export default {
    dolarBlue: async () => {

@@ -4,7 +4,6 @@ import { FaWhatsappSquare } from 'react-icons/fa';
 
 const NavbarCheckout: React.FC = ()=> {
 
-
   return(
     <Stack py={3} bg="white" pos="fixed" w="100%" zIndex={100}>
       <Container maxW="container.xl">
