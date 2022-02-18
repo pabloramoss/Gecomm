@@ -1,12 +1,12 @@
 import axios from "axios"
 
-const urlPurchaseDB = process.env.URL_SHEET
+const urlPurchaseDB = "https://sheet.best/api/sheets/92cafec5-fa4f-4efb-8fab-eebddfbbdb18"
 
 export default {
-   dolarBlue: async () => {
+  dolarBlue: async () => {
     return axios.get("https://www.dolarsi.com/api/api.php?type=valoresprincipales").then(
       response => {
-        const dolarBluePrice = response.data[1].casa.venta
+        const dolarBluePrice = response.data[0].casa.venta
         return dolarBluePrice
       }
     ).catch(error => console.log(error))

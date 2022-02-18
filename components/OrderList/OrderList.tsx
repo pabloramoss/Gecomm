@@ -15,9 +15,6 @@ const OrderList = ({cart, handleRemoveFromCart,handleAddToCart})=> {
 
   const getTotalItems = (items => items.reduce((counter, item)=> counter + item.amount, 0) )
   const subtotalPrice = (items => items.reduce((counter, item)=> counter + item.amount * item.price, 0))
-  //const subtotalIVA = (items => items.reduce((counter, item)=> (counter + item.amount * item.price) * (IVA/100), 0))
-  //const totalPrice = (items => items.reduce((counter, item)=> (counter + item.amount * item.price) * (1+IVA/100), 0))
-  //Cuando se agregue el tipo de iva en cada produdcto
   const subtotalIVA = (items => items.reduce((counter, item)=> ((counter + (item.amount * item.price) * (item.iva/100) )), 0))
   const totalPrice = (items => items.reduce((counter, item)=> ((counter + item.amount * item.price + subtotalIVA(items))), 0))
 
