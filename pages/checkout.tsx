@@ -194,12 +194,11 @@ function Checkout({
           </Box>
         )
         : <EmptyCart />}
-
     </Stack>
   );
 }
 export const getStaticProps = async () => {
-  const dolarPrice = parseInt(await api.dolarBlue());
+  const dolarPrice = parseFloat(await api.dolarBlue());
   const chat_id = 1367188448;
 
   return {

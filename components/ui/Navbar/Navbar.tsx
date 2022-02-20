@@ -1,9 +1,9 @@
 import React from 'react';
-import {Stack, Image, Heading, Link, Container, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, useDisclosure} from "@chakra-ui/react"
+import {Stack, Image, Heading, Link, Container, HStack, IconButton, Button, Drawer, DrawerOverlay, DrawerHeader, DrawerBody, DrawerContent, useDisclosure, Badge} from "@chakra-ui/react"
 import { FaBars, FaWindowClose, FaWhatsapp } from 'react-icons/fa';
 import NextLink from "next/link"
 
-const Navbar = ({categories})=> {
+const Navbar = ({categories, dolarPrice})=> {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
 
@@ -33,6 +33,7 @@ const Navbar = ({categories})=> {
             </DrawerContent>
           </Drawer>
         </HStack>
+        <Badge fontSize={11} bg="white">Cotización del dólar: $ {dolarPrice}</Badge>
       </Container>
     </Stack>
   )

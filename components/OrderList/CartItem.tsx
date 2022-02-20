@@ -27,9 +27,9 @@ const CartItem = ({item, handleAddToCart, handleRemoveFromCart})=> {
           <Stack w="100%" spacing={6}>
             <Heading fontSize={15} fontFamily="500">{item.title}</Heading>
             <HStack justifyContent="space-between">
-              <Text fontSize={13}>Precio: US{parseCurrency(parseInt(item.price))}</Text>
+              <Text fontSize={13}>Precio: US{parseCurrency(parseFloat(item.price))}</Text>
               <Text fontSize={13}>IVA: {item.iva}%</Text>
-              <Text fontSize={13}>Subtotal: US{parseCurrency(parseInt((item.amount * item.price).toFixed(2)))}</Text>
+              <Text fontSize={13}>Subtotal: US{parseCurrency(parseFloat((item.amount * item.price).toFixed(2)))}</Text>
             </HStack>
           </Stack>
         </HStack>
