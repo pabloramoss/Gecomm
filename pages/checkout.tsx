@@ -13,6 +13,7 @@ import CheckoutStep from '../components/Checkout/CheckoutSteps';
 import EmptyCart from '../components/Checkout/EmptyCart';
 import NavbarCheckout from '../components/ui/NavbarCheckout';
 import parseCurrency from '../components/product/parseCurrency';
+import productPriceAR from '../components/product/ProductPriceAR';
 
 const uniqueID = String(Date.now());
 const transactionDate = new Date().toISOString().slice(0, 10);
@@ -20,15 +21,14 @@ const transactionDate = new Date().toISOString().slice(0, 10);
 function Checkout({
   cart, clientInfo, dolarPrice, handleAddToCart, handleRemoveFromCart, chat_id,
 }) {
-  const subTotalProducts = cart.map((item) => item.amount * item.price);
-  const subTotal = subTotalProducts.reduce((counter, item) => counter + item, 0);
-  const iva = 21;
-  const subtotalIVA = subTotal * (iva / 100);
-  const total = subTotal + subtotalIVA;
-  const totalAR = total * dolarPrice;
+  const subtotalPrice = ((items) => items.reduce((counter, item) => counter + item.amount * item.price, 0));
+  const subtotalIVA = ((items) => items.reduce((counter, item) => ((counter + (item.amount * item.price) * (item.iva / 100))), 0));
+  const totalPrice = ((items) => items.reduce((counter, item) => ((counter + item.amount * item.price + (item.amount * item.price) * (item.iva / 100))), 0));
+  const totalAR = Math.trunc(productPriceAR(totalPrice(cart), dolarPrice))
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const CBU = '0170418540000032180697';
-  const alias = 'FOTO.OLEO.SOL';
+  const CBU = '0170418540000032181234';
+  const alias = 'ALIAS.ALIAS.ALIAS';
   const { hasCopied, onCopy } = useClipboard(CBU);
   const router = useRouter();
   const handleGoBack = () => router.push('/UserForm');
@@ -44,7 +44,7 @@ function Checkout({
   return (
     <Stack alignItems="center" bg="gray.100" minH="100vh">
       <NavbarCheckout />
-      {(total > 0)
+      {(totalAR > 0)
         ? (
           <Box>
             <CheckoutStep value="100" />
@@ -57,8 +57,8 @@ function Checkout({
                     ? (
                       <CheckoutCard
                         icon={FaTruck}
-                        title="Envio a domicilio"
-                        text=""
+                        title="Envío a domicilio"
+                        text="Flete pago en destino"
                       />
                     )
                     : (
@@ -97,15 +97,15 @@ function Checkout({
                 <Stack alignItems="end">
                   <Heading color="gray.500" fontSize={15}>
                     Subtotal: US
-                    {parseCurrency(subTotal)}
+                    {parseCurrency(subtotalPrice(cart))}
                   </Heading>
                   <Heading color="gray.500" fontSize={15}>
                     IVA: US
-                    {parseCurrency(subtotalIVA)}
+                    {parseCurrency(subtotalIVA(cart))}
                   </Heading>
                   <Heading color="gray.500" fontSize={15}>
                     Total: US
-                    {parseCurrency(total)}
+                    {parseCurrency(totalPrice(cart))}
                   </Heading>
                   <Heading color="gray.500" fontSize={15}>
                     Cotización del dólar: $
@@ -113,7 +113,7 @@ function Checkout({
                   </Heading>
                   <Heading fontSize={15}>
                     Equivalente en AR
-                    {parseCurrency(Math.trunc(totalAR))}
+                    {parseCurrency(totalAR)}
                   </Heading>
                 </Stack>
               </Stack>
@@ -169,20 +169,20 @@ function Checkout({
                       </HStack>
                       <Flex alignItems="center" justifyContent="space-between" mb={2}>
                         <Text me={2}>A nombre de:</Text>
-                        <Badge p={2} rounded={10} fontSize="md">Gonzalo Javier Diaz</Badge>
+                        <Badge p={2} rounded={10} fontSize="md">Jose Argento</Badge>
                       </Flex>
                       {clientInfo.shipping === false
                         ? (
                           <Stack>
                             <Flex alignItems="center" justifyContent="space-between">
                               <Text>Dirección:</Text>
-                              <Badge p={2} rounded={10} fontSize="md">Alvear 7929 - Santa Fe Capital</Badge>
+                              <Badge p={2} rounded={10} fontSize="md">Calle 1234 - Santa Fe Capital</Badge>
                             </Flex>
 
                           </Stack>
                         )
                         : ''}
-                      <Link pt={10} alignSelf="center" href="https://api.whatsapp.com/send?phone=5493426483165&message" isExternal>
+                      <Link pt={10} alignSelf="center" href="https://api.whatsapp.com/send?phone=549444444&message" isExternal>
                         <Button aria-label="whatsapp" colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
                       </Link>
                       <Text pt={10} alignSelf="center">¡Muchas gracias por confiar en Gecomm!</Text>
@@ -194,11 +194,12 @@ function Checkout({
           </Box>
         )
         : <EmptyCart />}
+
     </Stack>
   );
 }
 export const getStaticProps = async () => {
-  const dolarPrice = parseFloat(await api.dolarBlue());
+  const dolarPrice = await api.dolarBlue();
   const chat_id = 1367188448;
 
   return {
