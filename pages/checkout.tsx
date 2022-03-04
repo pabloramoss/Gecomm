@@ -31,7 +31,6 @@ function Checkout({
   const alias = 'ALIAS.ALIAS.ALIAS';
   const { hasCopied, onCopy } = useClipboard(CBU);
   const router = useRouter();
-  const handleGoBack = () => router.push('/UserForm');
 
   const text = cart.reduce((message, product) => message.concat(`* ${product.title} - x${product.amount}\n`), '').concat(`\nTotal: ${parseCurrency(totalAR)}`).concat(`\nCliente: ${clientInfo.name}\nCódigo: ${uniqueID}\nFecha: ${transactionDate}\nEmpresa: ${clientInfo.company}\nCuit: ${clientInfo.cuit}\nEmail: ${clientInfo.email}\nWhatsapp: ${clientInfo.whatsapp}\nDirección: ${clientInfo.address}\nProvincia: ${clientInfo.province}\nCiudad: ${clientInfo.city}\nCódigo Postal: ${clientInfo.zipCode}`);
 
@@ -79,7 +78,7 @@ function Checkout({
                     : (
                       <CheckoutCard
                         icon={FaMapMarkerAlt}
-                        title="Alvear 7929"
+                        title="Calle 1234"
                         text="Santa Fe Capital"
                       />
                     )}
@@ -119,7 +118,7 @@ function Checkout({
               </Stack>
             </Stack>
             <Stack direction="row" justifyContent="space-around" py={10}>
-              <Button onClick={handleGoBack} colorScheme="blue" px={5} size="lg">
+              <Button onClick={() => router.push('/UserForm')} colorScheme="blue" px={5} size="lg">
                 <Icon as={FaArrowLeft} me={3} />
                 Volver
               </Button>
@@ -182,10 +181,13 @@ function Checkout({
                           </Stack>
                         )
                         : ''}
-                      <Link pt={10} alignSelf="center" href="https://api.whatsapp.com/send?phone=549444444&message" isExternal>
+                      <Link _hover={{textDecoration:"none"}} pt={10} alignSelf="center" href="https://api.whatsapp.com/send?phone=549444444&message" isExternal>
                         <Button aria-label="whatsapp" colorScheme="green" leftIcon={<FaWhatsapp />}>Consultanos para coordinar</Button>
                       </Link>
                       <Text pt={10} alignSelf="center">¡Muchas gracias por confiar en Gecomm!</Text>
+                      <Link alignSelf="center" _hover={{textDecoration: "none"}} href='/'>
+                        <Button variant="outline" colorScheme="blue">Volver a la tienda</Button>
+                      </Link>
                     </Stack>
                   </ModalBody>
                 </ModalContent>
@@ -200,6 +202,7 @@ function Checkout({
 }
 export const getStaticProps = async () => {
   const dolarPrice = await api.dolarBlue();
+  /* const dolarPrice = await api.dolarMock(); */
   const chat_id = 1367188448;
 
   return {

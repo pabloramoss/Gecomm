@@ -5,12 +5,6 @@ import {
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import parseCurrency from '../product/parseCurrency';
 
-/* type Props = {
-  item: CartItemType;
-  handleAddToCart: (clickedItem: CartItemType) => void;
-  handleRemoveFromCart: (id: number) => void;
-} */
-
 function CartItem({ item, handleAddToCart, handleRemoveFromCart }) {
   return (
     <Stack>

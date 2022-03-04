@@ -4,6 +4,7 @@ import {
 } from '@chakra-ui/react';
 import { FaTruck } from 'react-icons/fa';
 import api from '../components/product/api';
+import mock from '../components/product/mock';
 import Navbar from '../components/ui/Navbar/Navbar';
 import Aside from '../components/ui/Aside';
 import OrderList from '../components/OrderList/OrderList';
@@ -11,13 +12,11 @@ import parseCurrency from '../components/product/parseCurrency';
 import ProductCardAside from '../components/product/ProductCardAside';
 import apiDolar from "../components/Checkout/api"
 import ProductPriceAR from '../components/product/ProductPriceAR';
-import { type } from 'os';
 
 function IndexRoute({
   products, handleAddToCart, handleRemoveFromCart, cart, productOnHover, setProductOnHover, dolarPrice
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   // On hover, set product on hover and display card in aside
   const onHoverCard = (product) => {
     setProductOnHover(product);
@@ -25,23 +24,23 @@ function IndexRoute({
   };
 
   // Agroup all products by category
-  const productsGrouping = products.reduce((a, {
+  const productsGrouping = products.reduce((group, {
     category, title, price, iva, image, description,
   }) => {
-    const foundCategory = a.find(({ productCategory }) => productCategory === category);
+    const foundCategory = group.find(({ productCategory }) => productCategory === category);
     if (foundCategory) {
       foundCategory.productsGroup.push({
         title, price, iva, image, description,
       });
     } else {
-      a.push({
+      group.push({
         productCategory: category,
         productsGroup: [{
           title, price, iva, image, description,
         }],
       });
     }
-    return a;
+    return group;
   }, []);
   const categories = productsGrouping.map((item) => item.productCategory); // Return only categories
 
@@ -87,7 +86,7 @@ function IndexRoute({
   ));
 
   return (
-    <Stack direction="row" bg="gray.200">
+    <Flex direction="row" bg="gray.200">
       <Navbar categories={categories} dolarPrice={dolarPrice} />
       <Aside categories={categories} />
       <Container overflow="scroll" pb={20} maxW="container.xl" maxH="100vh" alignSelf="center" pt={['100px', '100px', '100px', '25px']}>
@@ -99,16 +98,18 @@ function IndexRoute({
       <Flex position="fixed" zIndex={50}>
         {Boolean(cart.length) && <OrderList dolarPrice={dolarPrice} cart={cart} handleAddToCart={handleAddToCart} handleRemoveFromCart={handleRemoveFromCart} />}
       </Flex>
-    </Stack>
+    </Flex>
   );
 }
 
 export const getStaticProps = async () => {
-  const dolarPrice = await apiDolar.dolarBlue();;
+  const dolarPrice = await apiDolar.dolarBlue();
   const products = await api.list();
+/*   const products = await mock.list();
+  const dolarPrice = await apiDolar.dolarMock(); */
 
   return {
-    revalidate: 10,
+    revalidate: 3600 * 24,
     props: {
       products,
       dolarPrice,

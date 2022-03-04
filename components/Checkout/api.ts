@@ -11,6 +11,9 @@ export default {
       }
     ).catch(error => console.log(error))
   },
+  dolarMock: () => {
+    return (112)
+  },
   message: async (chat_id, text) =>{
     return axios.post(`https://api.telegram.org/bot5165116240:AAFAI03uGZhb2C7Wg6TGkdhQ6Jg4DMJauSo/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`).catch(error => console.log(error))
   },
