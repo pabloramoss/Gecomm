@@ -89,7 +89,17 @@ function IndexRoute({
     <Flex direction="row" bg="gray.200">
       <Navbar categories={categories} dolarPrice={dolarPrice} />
       <Aside categories={categories} />
-      <Container overflow="scroll" pb={20} maxW="container.xl" maxH="100vh" alignSelf="center" pt={['100px', '100px', '100px', '25px']}>
+      <Container overflowY="auto" pb={20} maxW="container.xl" maxH="100vh" alignSelf="center" pt={['100px', '100px', '100px', '25px']} sx={{
+      '&::-webkit-scrollbar': {
+        width: '8px',
+        borderRadius: '8px',
+        backgroundColor: `rgba(0, 0, 0, 0.05)`,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: '8px',
+        backgroundColor: `rgba(172, 172, 172, 0.5)`,
+      },
+    }}>
         {productsCards}
       </Container>
       <Stack display={['none', 'none', 'none', 'flex']} width="300px">
