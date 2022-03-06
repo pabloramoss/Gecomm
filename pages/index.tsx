@@ -13,6 +13,7 @@ import ProductCardAside from '../components/product/ProductCardAside';
 import apiDolar from "../components/Checkout/api"
 import ProductPriceAR from '../components/product/ProductPriceAR';
 
+
 function IndexRoute({
   products, handleAddToCart, handleRemoveFromCart, cart, productOnHover, setProductOnHover, dolarPrice
 }) {
