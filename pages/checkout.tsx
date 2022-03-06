@@ -13,7 +13,7 @@ import CheckoutStep from '../components/Checkout/CheckoutSteps';
 import EmptyCart from '../components/Checkout/EmptyCart';
 import NavbarCheckout from '../components/ui/NavbarCheckout';
 import parseCurrency from '../components/product/parseCurrency';
-import productPriceAR from '../components/product/ProductPriceAR';
+import ProductPriceAR from '../components/product/ProductPriceAR';
 
 const uniqueID = String(Date.now());
 const transactionDate = new Date().toISOString().slice(0, 10);
@@ -24,7 +24,7 @@ function Checkout({
   const subtotalPrice = ((items) => items.reduce((counter, item) => counter + item.amount * item.price, 0));
   const subtotalIVA = ((items) => items.reduce((counter, item) => ((counter + (item.amount * item.price) * (item.iva / 100))), 0));
   const totalPrice = ((items) => items.reduce((counter, item) => ((counter + item.amount * item.price + (item.amount * item.price) * (item.iva / 100))), 0));
-  const totalAR = Math.trunc(productPriceAR(totalPrice(cart), dolarPrice))
+  const totalAR = Math.trunc(ProductPriceAR(totalPrice(cart), dolarPrice))
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const CBU = '0170418540000032181234';

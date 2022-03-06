@@ -7,7 +7,7 @@ import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import parseCurrency from '../product/parseCurrency';
 import Cart from './Cart';
-import productPriceAR from '../product/ProductPriceAR';
+import ProductPriceAR from '../product/ProductPriceAR';
 
 function OrderList({ cart, handleRemoveFromCart, handleAddToCart, dolarPrice }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -79,7 +79,7 @@ function OrderList({ cart, handleRemoveFromCart, handleAddToCart, dolarPrice }) 
                 <Heading fontSize={18}>Total:</Heading>
                 <Heading fontSize={18}>
                   AR
-                  {parseCurrency(Math.trunc(productPriceAR(totalPrice(cart), dolarPrice)))}
+                  {parseCurrency(Math.trunc(ProductPriceAR(totalPrice(cart), dolarPrice)))}
                 </Heading>
               </HStack>
             </Stack>
