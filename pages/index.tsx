@@ -23,21 +23,22 @@ function IndexRoute({
     setProductOnHover(product);
     onOpen();
   };
+  console.log(products.map(product => product.quantity))
 
   // Agroup all products by category
   const productsGrouping = products.reduce((group, {
-    category, title, price, iva, image, description,
+    category, title, price, iva, image, description, quantity
   }) => {
     const foundCategory = group.find(({ productCategory }) => productCategory === category);
     if (foundCategory) {
       foundCategory.productsGroup.push({
-        title, price, iva, image, description,
+        title, price, iva, image, description, quantity
       });
     } else {
       group.push({
         productCategory: category,
         productsGroup: [{
-          title, price, iva, image, description,
+          title, price, iva, image, description, quantity
         }],
       });
     }
@@ -65,8 +66,8 @@ function IndexRoute({
             <Divider />
             <Stack height="100%" justifyContent="space-between" p={5}>
               <Stack spacing={0}>
+                <Badge alignSelf="start" bg="gray.200">{product.quantity}</Badge>
                 <Heading fontSize={22} fontWeight={600}>
-                  {' '}
                   US
                   {parseCurrency(parseFloat(product.price))}
                   <Badge ms={3} borderRadius={5}>
@@ -120,7 +121,7 @@ export const getStaticProps = async () => {
   const dolarPrice = await apiDolar.dolarMock(); */
 
   return {
-    revalidate: 3600 * 24,
+    /* revalidate: 3600 * 24, */
     props: {
       products,
       dolarPrice,

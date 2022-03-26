@@ -11,7 +11,7 @@ function CartItem({ item, handleAddToCart, handleRemoveFromCart }) {
       <Stack direction="row" alignItems="center">
         <HStack w="100%">
           <Stack>
-            <Image objectFit="scale-down" width={100} height={100} src={item.image} alt={item.title} />
+            <Image borderLeftRadius={10} objectFit="scale-down" width={100} height={100} src={item.image} alt={item.title} />
             <Stack direction="row" alignItems="center">
               <Button bg="gray.200" size="xs" onClick={() => handleRemoveFromCart(item.title)}><Icon as={FaMinus} /></Button>
               <Text>{item.amount}</Text>
